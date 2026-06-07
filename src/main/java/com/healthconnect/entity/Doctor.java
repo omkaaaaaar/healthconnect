@@ -6,7 +6,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
-public class Patient {
+public class Doctor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,9 +18,11 @@ public class Patient {
 
     private String city;
 
+    private String specialization;
+
     private String password;
 
-    public Patient() {
+    public Doctor() {
     }
 
     public int getId() {
@@ -53,6 +55,14 @@ public class Patient {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public String getSpecialization() {
+        return specialization;
+    }
+
+    public void setSpecialization(String specialization) {
+        this.specialization = specialization;
     }
 
     public String getPassword() {

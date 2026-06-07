@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>Patient List</title>
+
+    ```
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    ```
+  </head>
+
+  <body class="bg-light">
+    <div class="container mt-5">
+      ```
+      <div class="card shadow p-4">
+        <h2 class="text-center text-primary mb-4">Registered Patients</h2>
+
+        <table class="table table-bordered table-hover">
+          <thead class="table-dark">
+            <tr>
+              <th>ID</th>
+              <th>Full Name</th>
+              <th>Email</th>
+              <th>City</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr th:each="patient : ${patients}">
+              <td th:text="${patient.id}"></td>
+
+              <td th:text="${patient.fullName}"></td>
+
+              <td th:text="${patient.email}"></td>
+
+              <td th:text="${patient.city}"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      ```
+    </div>
+  </body>
+</html>
