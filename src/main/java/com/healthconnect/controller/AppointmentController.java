@@ -1,0 +1,150 @@
+package com.healthconnect.controller;
+
+import com.healthconnect.entity.Appointment;
+import com.healthconnect.repository.AppointmentRepository;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
+
+@Controller
+public class AppointmentController {
+
+        @Autowired
+        private AppointmentRepository appointmentRepository;
+
+        // ==============================
+        // BOOK APPOINTMENT PAGE
+        // ==============================
+
+        @GetMapping("/book-appointment")
+        public String bookAppointmentPage() {
+
+                return "appointment/book-appointment";
+        }
+
+        // ==============================
+        // SAVE APPOINTMENT
+        // ==============================
+
+        @PostMapping("/save-appointment")
+        public String saveAppointment(
+
+                        @RequestParam String patientName,
+
+                        @RequestParam String doctorName,
+
+                        @RequestParam String city) {
+
+                Appointment appointment = new Appointment();
+
+                appointment.setPatientName(
+                                patientName);
+
+                appointment.setDoctorName(
+                                doctorName);
+
+                appointment.setCity(
+                                city);
+
+                appointment.setStatus(
+                                "Pending");
+
+                appointmentRepository.save(
+                                appointment);
+
+                return "redirect:/appointments";
+        }
+
+        // ==============================
+        // VIEW ALL APPOINTMENTS
+        // ==============================
+
+        @GetMapping("/appointments")
+        public String appointments(Model model) {
+
+                List<Appointment> appointments = appointmentRepository.findAll();
+
+                model.addAttribute(
+                                "appointments",
+                                appointments);
+
+                return "appointment/appointments";
+        }
+
+        // ==============================
+        // APPOINTMENT APPROVAL PAGE
+        // ==============================
+
+        @GetMapping("/appointment-approval")
+        public String appointmentApproval(
+                        Model model) {
+
+                List<Appointment> appointments = appointmentRepository.findAll();
+
+                model.addAttribute(
+                                "appointments",
+                                appointments);
+
+                return "appointment/appointment-approval";
+        }
+
+        // ==============================
+        // ACCEPT APPOINTMENT
+        // ==============================
+
+        @PostMapping("/accept-appointment")
+        public String acceptAppointment(
+
+                        @RequestParam int id,
+
+                        @RequestParam String appointmentDate,
+
+                        @RequestParam String appointmentTime) {
+
+                Appointment appointment = appointmentRepository
+                                .findById(id)
+                                .get();
+
+                appointment.setStatus(
+                                "Accepted");
+
+                appointment.setAppointmentDate(
+                                appointmentDate);
+
+                appointment.setAppointmentTime(
+                                appointmentTime);
+
+                appointmentRepository.save(
+                                appointment);
+
+                return "redirect:/appointment-approval";
+        }
+
+        // ==============================
+        // REJECT APPOINTMENT
+        // ==============================
+
+        @PostMapping("/reject-appointment")
+        public String rejectAppointment(
+                        @RequestParam int id) {
+
+                Appointment appointment = appointmentRepository
+                                .findById(id)
+                                .get();
+
+                appointment.setStatus(
+                                "Rejected");
+
+                appointmentRepository.save(
+                                appointment);
+
+                return "redirect:/appointment-approval";
+        }
+}

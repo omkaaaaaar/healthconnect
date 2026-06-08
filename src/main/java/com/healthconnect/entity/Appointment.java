@@ -20,6 +20,10 @@ public class Appointment {
 
     private String status;
 
+    private String appointmentDate;
+
+    private String appointmentTime;
+
     public Appointment() {
     }
 
@@ -63,4 +67,19 @@ public class Appointment {
         this.status = status;
     }
 
+    public String getAppointmentDate() {
+        return appointmentDate;
+    }
+
+    public void setAppointmentDate(String appointmentDate) {
+        this.appointmentDate = appointmentDate;
+    }
+
+    public String getAppointmentTime() {
+        return appointmentTime;
+    }
+
+    public void setAppointmentTime(String appointmentTime) {
+        this.appointmentTime = appointmentTime;
+    }
 }

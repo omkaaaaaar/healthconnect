@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>Appointment Approval</title>
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body class="bg-light">
+    <div class="container mt-5">
+      <div class="card shadow p-5">
+        <h1 class="text-center text-primary mb-4">Appointment Requests</h1>
+
+        <table class="table table-bordered">
+          <thead class="table-dark">
+            <tr>
+              <th>Patient</th>
+              <th>Doctor</th>
+              <th>City</th>
+              <th>Status</th>
+              <th>Timing</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr th:each="appointment : ${appointments}">
+              <td th:text="${appointment.patientName}"></td>
+
+              <td th:text="${appointment.doctorName}"></td>
+
+              <td th:text="${appointment.city}"></td>
+
+              <td th:text="${appointment.status}"></td>
+
+              <td>
+                <span th:text="${appointment.appointmentDate}"></span>
+
+                <span th:text="${appointment.appointmentTime}"></span>
+              </td>
+
+              <td>
+                <!-- ACCEPT FORM -->
+
+                <form action="/accept-appointment" method="post">
+                  <input type="hidden" name="id" th:value="${appointment.id}" />
+
+                  <select name="appointmentDate" class="form-select mb-2">
+                    <option value="Today">Today</option>
+
+                    <option value="Tomorrow">Tomorrow</option>
+                  </select>
+
+                  <select name="appointmentTime" class="form-select mb-2">
+                    <option value="10 AM">10 AM</option>
+
+                    <option value="12 PM">12 PM</option>
+
+                    <option value="3 PM">3 PM</option>
+
+                    <option value="5 PM">5 PM</option>
+
+                    <option value="7 PM">7 PM</option>
+                  </select>
+
+                  <button class="btn btn-success btn-sm">Accept</button>
+                </form>
+
+                <!-- REJECT -->
+
+                <form action="/reject-appointment" method="post" class="mt-2">
+                  <input type="hidden" name="id" th:value="${appointment.id}" />
+
+                  <button class="btn btn-danger btn-sm">Reject</button>
+                </form>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </body>
+</html>

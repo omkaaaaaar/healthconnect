@@ -2,23 +2,23 @@ package com.healthconnect.controller;
 
 import com.healthconnect.entity.Doctor;
 import com.healthconnect.entity.Patient;
+import com.healthconnect.entity.Pharmacist;
+import com.healthconnect.entity.Medicine;
+
 import com.healthconnect.repository.DoctorRepository;
 import com.healthconnect.repository.PatientRepository;
+import com.healthconnect.repository.PharmacistRepository;
+import com.healthconnect.repository.MedicineRepository;
+
+import jakarta.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import com.healthconnect.entity.Appointment;
-import com.healthconnect.repository.AppointmentRepository;
-import java.util.Optional;
-import com.healthconnect.entity.Pharmacist;
-import com.healthconnect.repository.PharmacistRepository;
-import com.healthconnect.entity.Medicine;
-import com.healthconnect.repository.MedicineRepository;
-import jakarta.servlet.http.HttpSession;
-import org.springframework.ui.Model;
 
 import java.util.List;
 
@@ -32,18 +32,23 @@ public class HomeController {
     private DoctorRepository doctorRepository;
 
     @Autowired
-    private AppointmentRepository appointmentRepository;
-
-    @Autowired
     private PharmacistRepository pharmacistRepository;
 
     @Autowired
     private MedicineRepository medicineRepository;
 
+    // =========================
+    // HOME PAGE
+    // =========================
+
     @GetMapping("/")
     public String homePage() {
         return "index";
     }
+
+    // =========================
+    // PATIENT
+    // =========================
 
     @GetMapping("/patient/register")
     public String patientRegisterPage() {
@@ -63,10 +68,16 @@ public class HomeController {
 
         List<Patient> patients = patientRepository.findAll();
 
-        model.addAttribute("patients", patients);
+        model.addAttribute(
+                "patients",
+                patients);
 
         return "patient/list";
     }
+
+    // =========================
+    // DOCTOR
+    // =========================
 
     @GetMapping("/doctor/register")
     public String doctorRegisterPage() {
@@ -86,10 +97,16 @@ public class HomeController {
 
         List<Doctor> doctors = doctorRepository.findAll();
 
-        model.addAttribute("doctors", doctors);
+        model.addAttribute(
+                "doctors",
+                doctors);
 
         return "doctor/list";
     }
+
+    // =========================
+    // SEARCH DOCTORS
+    // =========================
 
     @GetMapping("/patient/search-doctors")
     public String searchDoctorPage() {
@@ -97,78 +114,22 @@ public class HomeController {
     }
 
     @GetMapping("/search-doctors")
-    public String searchDoctors(@RequestParam String city, Model model) {
+    public String searchDoctors(
+            @RequestParam String city,
+            Model model) {
 
         List<Doctor> doctors = doctorRepository.findByCity(city);
 
-        model.addAttribute("doctors", doctors);
+        model.addAttribute(
+                "doctors",
+                doctors);
 
         return "doctor/list";
-
     }
 
-    @GetMapping("/patient/book-appointment")
-    public String bookAppointmentPage() {
-        return "patient/book-appointment";
-    }
-
-    @PostMapping("/save-appointment")
-    public String saveAppointment(Appointment appointment) {
-
-        appointment.setStatus("Pending");
-
-        appointmentRepository.save(appointment);
-
-        return "redirect:/appointments";
-
-    }
-
-    @GetMapping("/appointments")
-    public String appointmentList(Model model) {
-
-        List<Appointment> appointments = appointmentRepository.findAll();
-
-        model.addAttribute("appointments", appointments);
-
-        return "doctor/appointments";
-
-    }
-
-    @GetMapping("/appointment/accept/{id}")
-    public String acceptAppointment(@org.springframework.web.bind.annotation.PathVariable int id) {
-
-        Optional<Appointment> optionalAppointment = appointmentRepository.findById(id);
-
-        if (optionalAppointment.isPresent()) {
-
-            Appointment appointment = optionalAppointment.get();
-
-            appointment.setStatus("Accepted");
-
-            appointmentRepository.save(appointment);
-        }
-
-        return "redirect:/appointments";
-
-    }
-
-    @GetMapping("/appointment/reject/{id}")
-    public String rejectAppointment(@org.springframework.web.bind.annotation.PathVariable int id) {
-
-        Optional<Appointment> optionalAppointment = appointmentRepository.findById(id);
-
-        if (optionalAppointment.isPresent()) {
-
-            Appointment appointment = optionalAppointment.get();
-
-            appointment.setStatus("Rejected");
-
-            appointmentRepository.save(appointment);
-        }
-
-        return "redirect:/appointments";
-
-    }
+    // =========================
+    // PHARMACIST
+    // =========================
 
     @GetMapping("/pharmacist/register")
     public String pharmacistRegisterPage() {
@@ -176,23 +137,29 @@ public class HomeController {
     }
 
     @PostMapping("/save-pharmacist")
-    public String savePharmacist(Pharmacist pharmacist) {
+    public String savePharmacist(
+            Pharmacist pharmacist) {
 
-        pharmacistRepository.save(pharmacist);
+        pharmacistRepository.save(
+                pharmacist);
 
         return "redirect:/pharmacists";
-
     }
 
     @GetMapping("/pharmacists")
-    public String pharmacistList(Model model) {
+    public String pharmacistList(
+            Model model) {
 
-        model.addAttribute("pharmacists",
+        model.addAttribute(
+                "pharmacists",
                 pharmacistRepository.findAll());
 
         return "pharmacist/list";
-
     }
+
+    // =========================
+    // MEDICINES
+    // =========================
 
     @GetMapping("/pharmacist/add-medicine")
     public String addMedicinePage() {
@@ -200,39 +167,29 @@ public class HomeController {
     }
 
     @PostMapping("/save-medicine")
-    public String saveMedicine(Medicine medicine) {
+    public String saveMedicine(
+            Medicine medicine) {
 
-        medicineRepository.save(medicine);
+        medicineRepository.save(
+                medicine);
 
         return "redirect:/medicines";
-
     }
 
     @GetMapping("/medicines")
-    public String medicineList(Model model) {
+    public String medicineList(
+            Model model) {
 
-        model.addAttribute("medicines",
+        model.addAttribute(
+                "medicines",
                 medicineRepository.findAll());
 
         return "pharmacist/medicine-list";
-
     }
 
-    @GetMapping("/patient/search-medicine")
-    public String searchMedicinePage() {
-        return "patient/search-medicine";
-    }
-
-    @GetMapping("/search-medicines")
-    public String searchMedicines(@RequestParam String city,
-            Model model) {
-
-        model.addAttribute("medicines",
-                medicineRepository.findByCity(city));
-
-        return "pharmacist/medicine-list";
-
-    }
+    // =========================
+    // DASHBOARDS
+    // =========================
 
     @GetMapping("/patient-dashboard")
     public String patientDashboard(

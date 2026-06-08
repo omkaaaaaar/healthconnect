@@ -9,4 +9,8 @@ public interface MedicineRepository extends JpaRepository<Medicine, Integer> {
 
     List<Medicine> findByCity(String city);
 
+    List<Medicine> findByMedicineNameContainingIgnoreCaseAndCity(
+            String medicineName,
+            String city);
+
 }
