@@ -1,80 +1,535 @@
 <!DOCTYPE html>
-
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
   <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <title>Add Medicine</title>
 
-    ```
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+
     <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
-    ```
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Inter", sans-serif;
+      }
+
+      :root {
+        --primary: #4f7df3;
+        --secondary: #2563eb;
+
+        --bg: #f5f7fb;
+        --text: #0f172a;
+        --sub: #64748b;
+
+        --border: #e2e8f0;
+
+        --success: #10b981;
+      }
+
+      body {
+        background: var(--bg);
+
+        min-height: 100vh;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        padding: 40px 20px;
+      }
+
+      /* WRAPPER */
+
+      .wrapper {
+        width: 100%;
+        max-width: 1200px;
+
+        display: grid;
+
+        grid-template-columns: 1fr 1fr;
+
+        background: white;
+
+        border-radius: 36px;
+
+        overflow: hidden;
+
+        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.08);
+      }
+
+      /* LEFT PANEL */
+
+      .left-panel {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+
+        padding: 60px;
+
+        color: white;
+
+        position: relative;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        overflow: hidden;
+      }
+
+      .left-panel::before {
+        content: "";
+
+        position: absolute;
+
+        width: 320px;
+        height: 320px;
+
+        background: rgba(255, 255, 255, 0.08);
+
+        border-radius: 50%;
+
+        top: -120px;
+        right: -120px;
+      }
+
+      .left-panel::after {
+        content: "";
+
+        position: absolute;
+
+        width: 220px;
+        height: 220px;
+
+        background: rgba(255, 255, 255, 0.08);
+
+        border-radius: 50%;
+
+        bottom: -80px;
+        left: -80px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+
+        margin-bottom: 40px;
+
+        position: relative;
+        z-index: 2;
+      }
+
+      .brand-icon {
+        width: 64px;
+        height: 64px;
+
+        border-radius: 20px;
+
+        background: rgba(255, 255, 255, 0.18);
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-size: 28px;
+      }
+
+      .brand h2 {
+        font-size: 34px;
+        font-weight: 800;
+      }
+
+      .left-panel h1 {
+        font-size: 48px;
+
+        line-height: 1.2;
+
+        margin-bottom: 24px;
+
+        position: relative;
+        z-index: 2;
+      }
+
+      .left-panel p {
+        font-size: 17px;
+
+        line-height: 1.9;
+
+        opacity: 0.95;
+
+        position: relative;
+        z-index: 2;
+      }
+
+      .feature-list {
+        margin-top: 40px;
+
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+
+        position: relative;
+        z-index: 2;
+      }
+
+      .feature {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+
+      .feature i {
+        width: 42px;
+        height: 42px;
+
+        border-radius: 14px;
+
+        background: rgba(255, 255, 255, 0.18);
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* RIGHT PANEL */
+
+      .right-panel {
+        padding: 60px;
+      }
+
+      .top-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        margin-bottom: 34px;
+      }
+
+      .back-btn {
+        width: 54px;
+        height: 54px;
+
+        border-radius: 18px;
+
+        background: #eef2ff;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        text-decoration: none;
+
+        color: var(--primary);
+
+        font-size: 20px;
+
+        transition: 0.3s;
+      }
+
+      .back-btn:hover {
+        transform: translateY(-4px);
+      }
+
+      .top-bar h2 {
+        font-size: 36px;
+        font-weight: 800;
+      }
+
+      /* FORM */
+
+      .form-group {
+        margin-bottom: 22px;
+      }
+
+      .form-group label {
+        display: block;
+
+        margin-bottom: 12px;
+
+        font-size: 15px;
+        font-weight: 600;
+
+        color: var(--text);
+      }
+
+      .input-wrapper {
+        position: relative;
+      }
+
+      .input-wrapper i {
+        position: absolute;
+
+        left: 20px;
+        top: 50%;
+
+        transform: translateY(-50%);
+
+        color: var(--primary);
+
+        font-size: 18px;
+      }
+
+      .input-wrapper input {
+        width: 100%;
+        height: 62px;
+
+        border: 1px solid var(--border);
+
+        border-radius: 20px;
+
+        padding-left: 58px;
+
+        font-size: 16px;
+
+        outline: none;
+
+        transition: 0.3s;
+      }
+
+      .input-wrapper input:focus {
+        border-color: var(--primary);
+
+        box-shadow: 0 0 0 4px rgba(79, 125, 243, 0.12);
+      }
+
+      /* BUTTON */
+
+      .submit-btn {
+        width: 100%;
+        height: 62px;
+
+        border: none;
+
+        border-radius: 20px;
+
+        background: linear-gradient(135deg, #10b981, #059669);
+
+        color: white;
+
+        font-size: 17px;
+        font-weight: 700;
+
+        cursor: pointer;
+
+        margin-top: 10px;
+
+        transition: 0.35s;
+
+        box-shadow: 0 18px 40px rgba(16, 185, 129, 0.25);
+      }
+
+      .submit-btn:hover {
+        transform: translateY(-4px);
+      }
+
+      /* NOTE */
+
+      .note {
+        margin-top: 20px;
+
+        text-align: center;
+
+        font-size: 14px;
+
+        color: var(--sub);
+
+        line-height: 1.7;
+      }
+
+      /* RESPONSIVE */
+
+      @media (max-width: 992px) {
+        .wrapper {
+          grid-template-columns: 1fr;
+        }
+
+        .left-panel {
+          display: none;
+        }
+      }
+
+      @media (max-width: 768px) {
+        body {
+          padding: 20px;
+        }
+
+        .right-panel {
+          padding: 34px 24px;
+        }
+
+        .top-bar h2 {
+          font-size: 28px;
+        }
+      }
+    </style>
   </head>
 
-  <body class="bg-light">
-    <div class="container mt-5">
-      ```
-      <div class="card shadow p-5">
-        <h2 class="text-center text-primary mb-4">Add Medicine</h2>
+  <body>
+    <div class="wrapper">
+      <!-- LEFT -->
+
+      <div class="left-panel">
+        <div class="brand">
+          <div class="brand-icon">
+            <i class="fa-solid fa-capsules"></i>
+          </div>
+
+          <h2>HealthConnect</h2>
+        </div>
+
+        <h1>Manage Medicine Inventory</h1>
+
+        <p>
+          Add medicines, manage stock, and keep your pharmacy inventory updated
+          through a modern healthcare management platform.
+        </p>
+
+        <div class="feature-list">
+          <div class="feature">
+            <i class="fa-solid fa-capsules"></i>
+
+            <span>Real-Time Medicine Tracking</span>
+          </div>
+
+          <div class="feature">
+            <i class="fa-solid fa-boxes-stacked"></i>
+
+            <span>Smart Inventory Management</span>
+          </div>
+
+          <div class="feature">
+            <i class="fa-solid fa-shield-heart"></i>
+
+            <span>Secure Healthcare Platform</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT -->
+
+      <div class="right-panel">
+        <div class="top-bar">
+          <a href="http://localhost:8080/pharmacist-dashboard" class="back-btn">
+            <i class="fa-solid fa-arrow-left"></i>
+          </a>
+
+          <h2>Add Medicine</h2>
+        </div>
+
+        <!-- =====================================
+BACKEND SAFE FORM
+DO NOT CHANGE INPUT NAMES
+===================================== -->
 
         <form action="/save-medicine" method="post">
-          <div class="mb-3">
-            <label class="form-label">Medicine Name</label>
+          <!-- MEDICINE NAME -->
 
-            <input
-              type="text"
-              name="medicineName"
-              class="form-control"
-              required
-            />
+          <div class="form-group">
+            <label> Medicine Name </label>
+
+            <div class="input-wrapper">
+              <i class="fa-solid fa-pills"></i>
+
+              <input
+                type="text"
+                name="medicineName"
+                placeholder="Enter medicine name"
+                required
+              />
+            </div>
           </div>
 
-          <div class="mb-3">
-            <label class="form-label">Pharmacy Name</label>
+          <!-- PHARMACY NAME -->
 
-            <input
-              type="text"
-              name="pharmacyName"
-              class="form-control"
-              required
-            />
+          <div class="form-group">
+            <label> Pharmacy Name </label>
+
+            <div class="input-wrapper">
+              <i class="fa-solid fa-hospital"></i>
+
+              <input
+                type="text"
+                name="pharmacyName"
+                placeholder="Enter pharmacy name"
+                required
+              />
+            </div>
           </div>
 
-          <div class="mb-3">
-            <label class="form-label">Pharmacy Address</label>
+          <!-- PHARMACY ADDRESS -->
 
-            <input
-              type="text"
-              name="pharmacyAddress"
-              class="form-control"
-              required
-            />
+          <div class="form-group">
+            <label> Pharmacy Address </label>
+
+            <div class="input-wrapper">
+              <i class="fa-solid fa-location-dot"></i>
+
+              <input
+                type="text"
+                name="pharmacyAddress"
+                placeholder="Enter pharmacy address"
+                required
+              />
+            </div>
           </div>
 
-          <div class="mb-3">
-            <label class="form-label">City</label>
+          <!-- CITY -->
 
-            <input type="text" name="city" class="form-control" required />
+          <div class="form-group">
+            <label> City </label>
+
+            <div class="input-wrapper">
+              <i class="fa-solid fa-city"></i>
+
+              <input
+                type="text"
+                name="city"
+                placeholder="Enter city"
+                required
+              />
+            </div>
           </div>
 
-          <div class="mb-3">
-            <label class="form-label">Quantity</label>
+          <!-- QUANTITY -->
 
-            <input
-              type="number"
-              name="quantity"
-              class="form-control"
-              required
-            />
+          <div class="form-group">
+            <label> Quantity </label>
+
+            <div class="input-wrapper">
+              <i class="fa-solid fa-boxes-stacked"></i>
+
+              <input
+                type="number"
+                name="quantity"
+                placeholder="Enter quantity"
+                required
+              />
+            </div>
           </div>
 
-          <button type="submit" class="btn btn-success w-100">
-            Add Medicine
-          </button>
+          <!-- SUBMIT -->
+
+          <button type="submit" class="submit-btn">Add Medicine</button>
         </form>
+
+        <div class="note">
+          Medicine information will be securely added to your pharmacy inventory
+          system.
+        </div>
       </div>
-      ```
     </div>
   </body>
 </html>

@@ -30,22 +30,27 @@
       :root {
         --primary: #4f7df3;
         --secondary: #2563eb;
+
         --bg: #f5f7fb;
         --text: #0f172a;
         --sub: #64748b;
-        --card: #ffffff;
+
         --border: #e2e8f0;
-        --success: #10b981;
+
         --danger: #ef4444;
       }
 
       body {
         background: var(--bg);
+
         color: var(--text);
       }
 
+      /* LAYOUT */
+
       .dashboard {
         display: flex;
+
         min-height: 100vh;
       }
 
@@ -53,10 +58,15 @@
 
       .sidebar {
         width: 280px;
+
         background: white;
+
         border-right: 1px solid var(--border);
+
         padding: 30px 24px;
+
         position: fixed;
+
         height: 100vh;
       }
 
@@ -64,19 +74,26 @@
         display: flex;
         align-items: center;
         gap: 14px;
+
         margin-bottom: 50px;
       }
 
       .logo-icon {
         width: 52px;
         height: 52px;
+
         border-radius: 18px;
+
         display: flex;
         align-items: center;
         justify-content: center;
+
         background: linear-gradient(135deg, var(--primary), var(--secondary));
+
         color: white;
+
         font-size: 22px;
+
         box-shadow: 0 12px 30px rgba(79, 125, 243, 0.25);
       }
 
@@ -88,6 +105,7 @@
       .menu {
         display: flex;
         flex-direction: column;
+
         gap: 14px;
       }
 
@@ -95,22 +113,31 @@
         display: flex;
         align-items: center;
         gap: 14px;
+
         padding: 16px 18px;
+
         border-radius: 18px;
-        color: var(--text);
+
         text-decoration: none;
+
         font-weight: 600;
+
+        color: var(--text);
+
         transition: 0.3s;
       }
 
       .menu a:hover {
         background: #eef2ff;
+
         color: var(--primary);
+
         transform: translateX(4px);
       }
 
       .menu .active {
         background: linear-gradient(135deg, var(--primary), var(--secondary));
+
         color: white;
       }
 
@@ -118,7 +145,9 @@
 
       .main {
         flex: 1;
+
         margin-left: 280px;
+
         padding: 34px;
       }
 
@@ -126,175 +155,234 @@
 
       .topbar {
         display: flex;
-        align-items: center;
         justify-content: space-between;
+        align-items: center;
+
         margin-bottom: 34px;
       }
 
       .topbar h1 {
         font-size: 34px;
+        font-weight: 800;
       }
 
       .topbar p {
         margin-top: 6px;
+
         color: var(--sub);
       }
 
       .profile {
         width: 52px;
         height: 52px;
+
         border-radius: 50%;
+
         background: linear-gradient(135deg, var(--primary), var(--secondary));
-        color: white;
+
         display: flex;
         align-items: center;
         justify-content: center;
+
+        color: white;
+
         font-weight: 700;
       }
 
-      /* BANNER */
+      /* HERO */
 
       .banner {
         background: linear-gradient(135deg, var(--primary), var(--secondary));
+
         border-radius: 34px;
+
         padding: 42px;
+
         color: white;
+
         display: flex;
         justify-content: space-between;
         align-items: center;
+
         gap: 30px;
+
         margin-bottom: 34px;
+
         box-shadow: 0 25px 50px rgba(79, 125, 243, 0.25);
       }
 
       .banner h2 {
         font-size: 40px;
+
         margin-bottom: 14px;
       }
 
       .banner p {
         line-height: 1.8;
+
         opacity: 0.95;
       }
 
       .banner-icon {
         width: 120px;
         height: 120px;
+
         border-radius: 30px;
+
         background: rgba(255, 255, 255, 0.15);
+
         display: flex;
         align-items: center;
         justify-content: center;
+
         font-size: 50px;
       }
 
-      /* GRID */
+      /* CARDS */
 
       .section-title {
         font-size: 28px;
+
         margin-bottom: 24px;
+
+        font-weight: 800;
       }
 
       .grid {
         display: grid;
+
         grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+
         gap: 24px;
+
         margin-bottom: 40px;
       }
 
       .card {
         background: white;
+
         border-radius: 28px;
+
         padding: 28px;
+
         border: 1px solid var(--border);
-        transition: 0.35s;
+
         text-decoration: none;
+
         color: var(--text);
+
+        transition: 0.35s;
+
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
       }
 
       .card:hover {
         transform: translateY(-8px);
+
         box-shadow: 0 25px 45px rgba(79, 125, 243, 0.14);
       }
 
       .card-icon {
         width: 72px;
         height: 72px;
+
         border-radius: 22px;
+
         background: #eef2ff;
-        color: var(--primary);
+
         display: flex;
         align-items: center;
         justify-content: center;
+
+        color: var(--primary);
+
         font-size: 30px;
+
         margin-bottom: 20px;
       }
 
       .card h3 {
         font-size: 22px;
+
         margin-bottom: 10px;
       }
 
       .card p {
         color: var(--sub);
+
         line-height: 1.7;
       }
 
-      /* APPOINTMENTS */
+      /* ACTIVITY */
 
-      .appointment-card {
+      .activity-card {
         background: white;
+
         border-radius: 30px;
+
         padding: 30px;
+
         border: 1px solid var(--border);
+
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
       }
 
-      .appointment-item {
+      .activity-item {
         display: flex;
-        align-items: center;
         justify-content: space-between;
+        align-items: center;
+
         padding: 20px 0;
+
         border-bottom: 1px solid var(--border);
       }
 
-      .appointment-item:last-child {
+      .activity-item:last-child {
         border-bottom: none;
       }
 
       .doctor-info {
         display: flex;
         align-items: center;
+
         gap: 16px;
       }
 
       .doctor-avatar {
         width: 58px;
         height: 58px;
+
         border-radius: 18px;
+
         background: #eef2ff;
-        color: var(--primary);
+
         display: flex;
         align-items: center;
         justify-content: center;
+
+        color: var(--primary);
+
         font-size: 24px;
       }
 
       .status {
         padding: 10px 16px;
+
         border-radius: 999px;
+
         font-size: 13px;
         font-weight: 700;
       }
 
       .pending {
         background: #fef3c7;
+
         color: #d97706;
       }
 
       .approved {
         background: #dcfce7;
+
         color: #16a34a;
       }
 
@@ -302,22 +390,34 @@
 
       .logout-btn {
         width: 100%;
+
         height: 56px;
+
         border: none;
+
         border-radius: 18px;
-        background: #ef4444;
+
+        background: var(--danger);
+
         color: white;
+
         font-size: 16px;
         font-weight: 700;
+
         cursor: pointer;
+
         margin-top: 28px;
+
         transition: 0.3s;
       }
 
       .logout-btn:hover {
         transform: translateY(-4px);
+
         background: #dc2626;
       }
+
+      /* RESPONSIVE */
 
       @media (max-width: 992px) {
         .sidebar {
@@ -330,6 +430,7 @@
 
         .banner {
           flex-direction: column;
+
           text-align: center;
         }
       }
@@ -346,6 +447,7 @@
         .topbar {
           flex-direction: column;
           align-items: flex-start;
+
           gap: 20px;
         }
       }
@@ -366,33 +468,33 @@
         </div>
 
         <div class="menu">
-          <a href="http://localhost:8080/patient-dashboard" class="active">
+          <a href="/patient-dashboard" class="active">
             <i class="fa-solid fa-house"></i>
+
             Dashboard
           </a>
 
-          <a href="http://localhost:8080/search-doctors">
+          <a href="/search-doctors">
             <i class="fa-solid fa-user-doctor"></i>
+
             Search Doctors
           </a>
 
-          <a href="http://localhost:8080/search-medicines">
+          <a href="/search-medicines">
             <i class="fa-solid fa-capsules"></i>
+
             Search Medicines
           </a>
 
-          <a href="http://localhost:8080/my-appointments">
+          <a href="/my-appointments">
             <i class="fa-solid fa-calendar-check"></i>
+
             My Appointments
           </a>
 
-          <a href="#">
-            <i class="fa-solid fa-file-medical"></i>
-            Health Records
-          </a>
-
-          <a href="http://localhost:8080/logout">
+          <a href="/logout">
             <i class="fa-solid fa-right-from-bracket"></i>
+
             Logout
           </a>
         </div>
@@ -401,6 +503,8 @@
       <!-- MAIN -->
 
       <div class="main">
+        <!-- TOPBAR -->
+
         <div class="topbar">
           <div>
             <h1>
@@ -415,11 +519,11 @@
           </div>
 
           <div class="profile">
-            <span th:text="${#strings.substring(patientName,0,1)}"></span>
+            <span th:text="${#strings.substring(patientName,0,1)}"> P </span>
           </div>
         </div>
 
-        <!-- BANNER -->
+        <!-- HERO -->
 
         <div class="banner">
           <div>
@@ -427,7 +531,7 @@
 
             <p>
               Book appointments, consult doctors, search medicines and manage
-              your healthcare records through one modern healthcare platform.
+              your healthcare through one modern platform.
             </p>
           </div>
 
@@ -441,7 +545,7 @@
         <h2 class="section-title">Quick Actions</h2>
 
         <div class="grid">
-          <a href="http://localhost:8080/search-doctors" class="card">
+          <a href="/search-doctors" class="card">
             <div class="card-icon">
               <i class="fa-solid fa-user-doctor"></i>
             </div>
@@ -451,24 +555,24 @@
             <p>Find experienced doctors near your location.</p>
           </a>
 
-          <a href="http://localhost:8080/search-medicines" class="card">
+          <a href="/search-medicines" class="card">
             <div class="card-icon">
               <i class="fa-solid fa-capsules"></i>
             </div>
 
             <h3>Search Medicines</h3>
 
-            <p>Locate pharmacies and medicine availability instantly.</p>
+            <p>Locate nearby pharmacies and medicine availability.</p>
           </a>
 
-          <a href="http://localhost:8080/my-appointments" class="card">
+          <a href="/my-appointments" class="card">
             <div class="card-icon">
               <i class="fa-solid fa-calendar-check"></i>
             </div>
 
             <h3>Appointments</h3>
 
-            <p>Track all booked consultations and doctor approvals.</p>
+            <p>Track booked consultations and approvals.</p>
           </a>
         </div>
 
@@ -476,8 +580,8 @@
 
         <h2 class="section-title">Recent Activity</h2>
 
-        <div class="appointment-card">
-          <div class="appointment-item">
+        <div class="activity-card">
+          <div class="activity-item">
             <div class="doctor-info">
               <div class="doctor-avatar">
                 <i class="fa-solid fa-user-doctor"></i>
@@ -493,7 +597,7 @@
             <div class="status approved">Approved</div>
           </div>
 
-          <div class="appointment-item">
+          <div class="activity-item">
             <div class="doctor-info">
               <div class="doctor-avatar">
                 <i class="fa-solid fa-user-doctor"></i>
@@ -510,7 +614,7 @@
           </div>
         </div>
 
-        <a href="http://localhost:8080/logout">
+        <a href="/logout">
           <button class="logout-btn">Logout Securely</button>
         </a>
       </div>
