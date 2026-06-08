@@ -22,6 +22,12 @@ public class Doctor {
 
     private String password;
 
+    private String phoneNumber;
+
+    private String clinicAddress;
+
+    private String timings;
+
     public Doctor() {
     }
 
@@ -71,6 +77,30 @@ public class Doctor {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getClinicAddress() {
+        return clinicAddress;
+    }
+
+    public void setClinicAddress(String clinicAddress) {
+        this.clinicAddress = clinicAddress;
+    }
+
+    public String getTimings() {
+        return timings;
+    }
+
+    public void setTimings(String timings) {
+        this.timings = timings;
     }
 
 }

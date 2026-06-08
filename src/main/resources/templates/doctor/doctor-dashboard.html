@@ -3,32 +3,124 @@
   <head>
     <title>Doctor Dashboard</title>
 
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
+    <style>
+      body {
+        background: #f5f5f5;
+        font-family: Arial;
+      }
+
+      .container {
+        width: 60%;
+        margin: auto;
+        margin-top: 50px;
+      }
+
+      .card {
+        background: white;
+        padding: 40px;
+        border-radius: 12px;
+        box-shadow: 0px 0px 10px #ccc;
+      }
+
+      h1 {
+        color: #2563eb;
+        margin-bottom: 30px;
+      }
+
+      h3 {
+        margin-bottom: 20px;
+      }
+
+      .info-box {
+        background: #f3f4f6;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 15px;
+      }
+
+      .btn {
+        width: 100%;
+        padding: 14px;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        cursor: pointer;
+        margin-top: 15px;
+        color: white;
+      }
+
+      .blue {
+        background: #2563eb;
+      }
+
+      .green {
+        background: #16a34a;
+      }
+
+      .red {
+        background: #dc2626;
+      }
+    </style>
   </head>
 
-  <body class="bg-light">
-    <div class="container mt-5">
-      <div class="card shadow p-5">
-        <h1 class="text-primary">
-          Dr.
+  <body>
+    <div class="container">
+      <div class="card">
+        <h1>Doctor Dashboard</h1>
+
+        <h3>
+          Welcome Dr.
           <span th:text="${doctorName}"></span>
-        </h1>
+        </h3>
 
-        <h4 class="mt-3">
-          City:
+        <div class="info-box">
+          <b>City:</b>
           <span th:text="${doctorCity}"></span>
-        </h4>
+        </div>
 
-        <hr />
+        <div class="info-box">
+          <b>Specialization:</b>
+          <span th:text="${doctor.specialization}"></span>
+        </div>
 
-        <a href="/appointments" class="btn btn-warning mt-3">
-          View Appointments
-        </a>
-        <a href="/appointment-approval" class="btn btn-warning mt-3">
-          View Appointment Requests
+        <div class="info-box">
+          <b>Phone Number:</b>
+          <span th:text="${doctor.phoneNumber}"></span>
+        </div>
+
+        <div class="info-box">
+          <b>Clinic Address:</b>
+          <span th:text="${doctor.clinicAddress}"></span>
+        </div>
+
+        <div class="info-box">
+          <b>Available Timings:</b>
+          <span th:text="${doctor.timings}"></span>
+        </div>
+
+        <div class="info-box">
+          <b>Pending Appointments:</b>
+          <span th:text="${pendingCount}"></span>
+        </div>
+
+        <button
+        class="btn blue"
+        onclick="window.location.href='http://localhost:8080/appointment-approval'">
+        View Appointment Requests
+        </button>
+        <button
+        class="btn green"
+        onclick="window.location.href='http://localhost:8080/doctor/update-profile'">
+        Update Profile
+        </button>
+
+        <button
+        class="btn red"
+        onclick="window.location.href='http://localhost:8080/logout'">
+
+        Logout
+
+        </button>
         </a>
       </div>
     </div>

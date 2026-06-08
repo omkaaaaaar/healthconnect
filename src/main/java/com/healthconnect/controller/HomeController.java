@@ -4,11 +4,13 @@ import com.healthconnect.entity.Doctor;
 import com.healthconnect.entity.Patient;
 import com.healthconnect.entity.Pharmacist;
 import com.healthconnect.entity.Medicine;
+import com.healthconnect.entity.Appointment;
 
 import com.healthconnect.repository.DoctorRepository;
 import com.healthconnect.repository.PatientRepository;
 import com.healthconnect.repository.PharmacistRepository;
 import com.healthconnect.repository.MedicineRepository;
+import com.healthconnect.repository.AppointmentRepository;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -37,21 +39,26 @@ public class HomeController {
     @Autowired
     private MedicineRepository medicineRepository;
 
-    // =========================
-    // HOME PAGE
-    // =========================
+    @Autowired
+    private AppointmentRepository appointmentRepository;
+
+    // =================================
+    // HOME
+    // =================================
 
     @GetMapping("/")
     public String homePage() {
+
         return "index";
     }
 
-    // =========================
+    // =================================
     // PATIENT
-    // =========================
+    // =================================
 
     @GetMapping("/patient/register")
     public String patientRegisterPage() {
+
         return "patient/register";
     }
 
@@ -66,21 +73,20 @@ public class HomeController {
     @GetMapping("/patients")
     public String patientList(Model model) {
 
-        List<Patient> patients = patientRepository.findAll();
-
         model.addAttribute(
                 "patients",
-                patients);
+                patientRepository.findAll());
 
         return "patient/list";
     }
 
-    // =========================
+    // =================================
     // DOCTOR
-    // =========================
+    // =================================
 
     @GetMapping("/doctor/register")
     public String doctorRegisterPage() {
+
         return "doctor/register";
     }
 
@@ -95,21 +101,20 @@ public class HomeController {
     @GetMapping("/doctors")
     public String doctorList(Model model) {
 
-        List<Doctor> doctors = doctorRepository.findAll();
-
         model.addAttribute(
                 "doctors",
-                doctors);
+                doctorRepository.findAll());
 
         return "doctor/list";
     }
 
-    // =========================
+    // =================================
     // SEARCH DOCTORS
-    // =========================
+    // =================================
 
     @GetMapping("/patient/search-doctors")
     public String searchDoctorPage() {
+
         return "patient/search-doctors";
     }
 
@@ -127,12 +132,13 @@ public class HomeController {
         return "doctor/list";
     }
 
-    // =========================
+    // =================================
     // PHARMACIST
-    // =========================
+    // =================================
 
     @GetMapping("/pharmacist/register")
     public String pharmacistRegisterPage() {
+
         return "pharmacist/register";
     }
 
@@ -140,8 +146,7 @@ public class HomeController {
     public String savePharmacist(
             Pharmacist pharmacist) {
 
-        pharmacistRepository.save(
-                pharmacist);
+        pharmacistRepository.save(pharmacist);
 
         return "redirect:/pharmacists";
     }
@@ -157,12 +162,13 @@ public class HomeController {
         return "pharmacist/list";
     }
 
-    // =========================
+    // =================================
     // MEDICINES
-    // =========================
+    // =================================
 
     @GetMapping("/pharmacist/add-medicine")
     public String addMedicinePage() {
+
         return "pharmacist/add-medicine";
     }
 
@@ -170,8 +176,7 @@ public class HomeController {
     public String saveMedicine(
             Medicine medicine) {
 
-        medicineRepository.save(
-                medicine);
+        medicineRepository.save(medicine);
 
         return "redirect:/medicines";
     }
@@ -187,9 +192,9 @@ public class HomeController {
         return "pharmacist/medicine-list";
     }
 
-    // =========================
-    // DASHBOARDS
-    // =========================
+    // =================================
+    // PATIENT DASHBOARD
+    // =================================
 
     @GetMapping("/patient-dashboard")
     public String patientDashboard(
@@ -207,21 +212,144 @@ public class HomeController {
         return "patient/patient-dashboard";
     }
 
+    // =================================
+    // PATIENT APPOINTMENTS
+    // =================================
+
+    @GetMapping("/my-appointments")
+    public String myAppointments(
+            HttpSession session,
+            Model model) {
+
+        String patientName = (String) session.getAttribute(
+                "patientName");
+
+        List<Appointment> appointments = appointmentRepository
+                .findByPatientName(
+                        patientName);
+
+        model.addAttribute(
+                "appointments",
+                appointments);
+
+        return "patient/my-appointments";
+    }
+
+    // =================================
+    // DOCTOR DASHBOARD
+    // =================================
+
     @GetMapping("/doctor-dashboard")
     public String doctorDashboard(
             HttpSession session,
             Model model) {
 
+        Integer doctorId = (Integer) session.getAttribute(
+                "doctorId");
+
+        if (doctorId == null) {
+
+            return "redirect:/doctor-login";
+        }
+
+        Doctor doctor = doctorRepository.findById(
+                doctorId).orElse(null);
+
+        if (doctor == null) {
+
+            return "redirect:/doctor-login";
+        }
+
+        List<Appointment> pendingAppointments = appointmentRepository
+                .findByDoctorNameAndStatus(
+                        doctor.getFullName(),
+                        "Pending");
+
+        model.addAttribute(
+                "doctor",
+                doctor);
+
         model.addAttribute(
                 "doctorName",
-                session.getAttribute("doctorName"));
+                doctor.getFullName());
 
         model.addAttribute(
                 "doctorCity",
-                session.getAttribute("doctorCity"));
+                doctor.getCity());
+
+        model.addAttribute(
+                "pendingCount",
+                pendingAppointments.size());
 
         return "doctor/doctor-dashboard";
     }
+
+    // =================================
+    // UPDATE DOCTOR PROFILE PAGE
+    // =================================
+
+    @GetMapping("/doctor/update-profile")
+    public String updateDoctorProfilePage(
+            HttpSession session,
+            Model model) {
+
+        String doctorName = (String) session.getAttribute("doctorName");
+
+        if (doctorName == null) {
+
+            return "redirect:/doctor-login";
+        }
+
+        Doctor doctor = doctorRepository.findByFullName(doctorName);
+
+        if (doctor == null) {
+
+            return "redirect:/doctor-login";
+        }
+
+        model.addAttribute(
+                "doctor",
+                doctor);
+
+        return "doctor/update-profile";
+    }
+
+    // =================================
+    // SAVE DOCTOR PROFILE
+    // =================================
+
+    @PostMapping("/doctor/update-profile")
+    public String updateDoctorProfile(
+            Doctor updatedDoctor,
+            HttpSession session) {
+
+        String doctorName = (String) session.getAttribute(
+                "doctorName");
+
+        Doctor doctor = doctorRepository.findByFullName(
+                doctorName);
+
+        doctor.setSpecialization(
+                updatedDoctor.getSpecialization());
+
+        doctor.setPhoneNumber(
+                updatedDoctor.getPhoneNumber());
+
+        doctor.setClinicAddress(
+                updatedDoctor.getClinicAddress());
+
+        doctor.setTimings(
+                updatedDoctor.getTimings());
+
+        doctorRepository.save(
+                doctor);
+
+        return "redirect:/doctor-dashboard";
+    }
+
+    // =================================
+    // PHARMACIST DASHBOARD
+    // =================================
 
     @GetMapping("/pharmacist-dashboard")
     public String pharmacistDashboard(

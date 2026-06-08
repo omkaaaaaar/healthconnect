@@ -20,125 +20,133 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class LoginController {
 
-    @Autowired
-    private PatientRepository patientRepository;
+        @Autowired
+        private PatientRepository patientRepository;
 
-    @Autowired
-    private DoctorRepository doctorRepository;
+        @Autowired
+        private DoctorRepository doctorRepository;
 
-    @Autowired
-    private PharmacistRepository pharmacistRepository;
+        @Autowired
+        private PharmacistRepository pharmacistRepository;
 
-    // =========================
-    // PATIENT LOGIN
-    // =========================
+        // =========================
+        // PATIENT LOGIN
+        // =========================
 
-    @GetMapping("/patient-login")
-    public String patientLoginPage() {
-        return "patient/patient-login";
-    }
-
-    @PostMapping("/patient-login")
-    public String patientLogin(
-            @RequestParam String email,
-            @RequestParam String password,
-            HttpSession session) {
-
-        Patient patient = patientRepository
-                .findByEmailAndPassword(
-                        email,
-                        password);
-
-        if (patient != null) {
-
-            session.setAttribute(
-                    "patientName",
-                    patient.getFullName());
-
-            session.setAttribute(
-                    "patientCity",
-                    patient.getCity());
-
-            return "redirect:/patient-dashboard";
+        @GetMapping("/patient-login")
+        public String patientLoginPage() {
+                return "patient/patient-login";
         }
 
-        return "redirect:/patient-login";
-    }
+        @PostMapping("/patient-login")
+        public String patientLogin(
+                        @RequestParam String email,
+                        @RequestParam String password,
+                        HttpSession session) {
 
-    // =========================
-    // DOCTOR LOGIN
-    // =========================
+                Patient patient = patientRepository
+                                .findByEmailAndPassword(
+                                                email,
+                                                password);
 
-    @GetMapping("/doctor-login")
-    public String doctorLoginPage() {
-        return "doctor/doctor-login";
-    }
+                if (patient != null) {
 
-    @PostMapping("/doctor-login")
-    public String doctorLogin(
-            @RequestParam String email,
-            @RequestParam String password,
-            HttpSession session) {
+                        session.setAttribute(
+                                        "patientName",
+                                        patient.getFullName());
 
-        Doctor doctor = doctorRepository
-                .findByEmailAndPassword(
-                        email,
-                        password);
+                        session.setAttribute(
+                                        "patientCity",
+                                        patient.getCity());
 
-        if (doctor != null) {
+                        return "redirect:/patient-dashboard";
+                }
 
-            session.setAttribute(
-                    "doctorName",
-                    doctor.getFullName());
-
-            session.setAttribute(
-                    "doctorCity",
-                    doctor.getCity());
-
-            return "redirect:/doctor-dashboard";
+                return "redirect:/patient-login";
         }
 
-        return "redirect:/doctor-login";
-    }
+        // =========================
+        // DOCTOR LOGIN
+        // =========================
 
-    // =========================
-    // PHARMACIST LOGIN
-    // =========================
+        @PostMapping("/doctor-login")
+        public String doctorLogin(
+                        @RequestParam String email,
+                        @RequestParam String password,
+                        HttpSession session) {
 
-    @GetMapping("/pharmacist-login")
-    public String pharmacistLoginPage() {
-        return "pharmacist/pharmacist-login";
-    }
+                Doctor doctor = doctorRepository.findByEmailAndPassword(
+                                email,
+                                password);
 
-    @PostMapping("/pharmacist-login")
-    public String pharmacistLogin(
-            @RequestParam String email,
-            @RequestParam String password,
-            HttpSession session) {
+                if (doctor != null) {
 
-        Pharmacist pharmacist = pharmacistRepository
-                .findByEmailAndPassword(
-                        email,
-                        password);
+                        session.setAttribute(
+                                        "doctorName",
+                                        doctor.getFullName());
 
-        if (pharmacist != null) {
+                        session.setAttribute(
+                                        "doctorCity",
+                                        doctor.getCity());
 
-            session.setAttribute(
-                    "pharmacyName",
-                    pharmacist.getPharmacyName());
+                        session.setAttribute(
+                                        "doctorId",
+                                        doctor.getId());
 
-            session.setAttribute(
-                    "pharmacyCity",
-                    pharmacist.getCity());
+                        return "redirect:/doctor-dashboard";
+                }
 
-            session.setAttribute(
-                    "pharmacyAddress",
-                    pharmacist.getPharmacyAddress());
-
-            return "redirect:/pharmacist-dashboard";
+                return "redirect:/doctor-login";
         }
 
-        return "redirect:/pharmacist-login";
-    }
+        // =========================
+        // PHARMACIST LOGIN
+        // =========================
+
+        @GetMapping("/pharmacist-login")
+        public String pharmacistLoginPage() {
+                return "pharmacist/pharmacist-login";
+        }
+
+        @PostMapping("/pharmacist-login")
+        public String pharmacistLogin(
+                        @RequestParam String email,
+                        @RequestParam String password,
+                        HttpSession session) {
+
+                Pharmacist pharmacist = pharmacistRepository
+                                .findByEmailAndPassword(
+                                                email,
+                                                password);
+
+                if (pharmacist != null) {
+
+                        session.setAttribute(
+                                        "pharmacyName",
+                                        pharmacist.getPharmacyName());
+
+                        session.setAttribute(
+                                        "pharmacyCity",
+                                        pharmacist.getCity());
+
+                        session.setAttribute(
+                                        "pharmacyAddress",
+                                        pharmacist.getPharmacyAddress());
+
+                        return "redirect:/pharmacist-dashboard";
+                }
+
+                return "redirect:/pharmacist-login";
+        }
+
+        @GetMapping("/logout")
+        public String logout(
+                        HttpSession session) {
+
+                session.invalidate();
+
+                return "redirect:/";
+
+        }
 
 }

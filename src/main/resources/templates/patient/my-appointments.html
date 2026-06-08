@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>My Appointments</title>
+
+    <style>
+      body {
+        background: #f5f5f5;
+        font-family: Arial;
+      }
+
+      .container {
+        width: 85%;
+        margin: auto;
+        margin-top: 60px;
+        background: white;
+        padding: 40px;
+        border-radius: 12px;
+        box-shadow: 0px 0px 10px #ccc;
+      }
+
+      h1 {
+        color: #2563eb;
+        text-align: center;
+        margin-bottom: 40px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      th {
+        background: #1f2937;
+        color: white;
+        padding: 14px;
+        text-align: left;
+      }
+
+      td {
+        padding: 14px;
+        border: 1px solid #ddd;
+      }
+
+      .accepted {
+        color: green;
+        font-weight: bold;
+      }
+
+      .pending {
+        color: orange;
+        font-weight: bold;
+      }
+
+      .rejected {
+        color: red;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      ```
+      <h1>My Appointments</h1>
+
+      <table>
+        <tr>
+          <th>ID</th>
+          <th>Doctor</th>
+          <th>City</th>
+          <th>Status</th>
+          <th>Date</th>
+          <th>Time</th>
+        </tr>
+
+        <tr th:each="appointment : ${appointments}">
+          <td th:text="${appointment.id}"></td>
+
+          <td th:text="${appointment.doctorName}"></td>
+
+          <td th:text="${appointment.city}"></td>
+
+          <td>
+            <span
+              th:if="${appointment.status == 'Accepted'}"
+              class="accepted"
+              th:text="${appointment.status}"
+            >
+            </span>
+
+            <span
+              th:if="${appointment.status == 'Pending'}"
+              class="pending"
+              th:text="${appointment.status}"
+            >
+            </span>
+
+            <span
+              th:if="${appointment.status == 'Rejected'}"
+              class="rejected"
+              th:text="${appointment.status}"
+            >
+            </span>
+          </td>
+
+          <td th:text="${appointment.appointmentDate}"></td>
+
+          <td th:text="${appointment.appointmentTime}"></td>
+        </tr>
+      </table>
+      ```
+    </div>
+  </body>
+</html>

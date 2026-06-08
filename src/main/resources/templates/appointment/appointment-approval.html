@@ -3,84 +3,127 @@
   <head>
     <title>Appointment Approval</title>
 
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
+    <style>
+      body {
+        background: #f5f5f5;
+        font-family: Arial;
+      }
+
+      .container {
+        width: 85%;
+        margin: auto;
+        margin-top: 50px;
+        background: white;
+        padding: 40px;
+        border-radius: 12px;
+        box-shadow: 0px 0px 10px #ccc;
+      }
+
+      h1 {
+        color: #2563eb;
+        text-align: center;
+        margin-bottom: 40px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      th {
+        background: #1f2937;
+        color: white;
+        padding: 15px;
+      }
+
+      td {
+        padding: 15px;
+        border: 1px solid #ddd;
+      }
+
+      select {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+      }
+
+      .btn {
+        width: 100%;
+        padding: 10px;
+        border: none;
+        border-radius: 6px;
+        color: white;
+        cursor: pointer;
+        margin-top: 5px;
+      }
+
+      .green {
+        background: #16a34a;
+      }
+
+      .red {
+        background: #dc2626;
+      }
+    </style>
   </head>
 
-  <body class="bg-light">
-    <div class="container mt-5">
-      <div class="card shadow p-5">
-        <h1 class="text-center text-primary mb-4">Appointment Requests</h1>
+  <body>
+    <div class="container">
+      <h1>Appointment Requests</h1>
 
-        <table class="table table-bordered">
-          <thead class="table-dark">
-            <tr>
-              <th>Patient</th>
-              <th>Doctor</th>
-              <th>City</th>
-              <th>Status</th>
-              <th>Timing</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
+      <table>
+        <tr>
+          <th>Patient</th>
+          <th>Doctor</th>
+          <th>City</th>
+          <th>Status</th>
+          <th>Timing</th>
+          <th>Actions</th>
+        </tr>
 
-          <tbody>
-            <tr th:each="appointment : ${appointments}">
-              <td th:text="${appointment.patientName}"></td>
+        <tr th:each="appointment : ${appointments}">
+          <td th:text="${appointment.patientName}"></td>
 
-              <td th:text="${appointment.doctorName}"></td>
+          <td th:text="${appointment.doctorName}"></td>
 
-              <td th:text="${appointment.city}"></td>
+          <td th:text="${appointment.city}"></td>
 
-              <td th:text="${appointment.status}"></td>
+          <td th:text="${appointment.status}"></td>
 
-              <td>
-                <span th:text="${appointment.appointmentDate}"></span>
+          <td>
+            <span th:text="${appointment.appointmentDate}"></span>
+            <span th:text="${appointment.appointmentTime}"></span>
+          </td>
 
-                <span th:text="${appointment.appointmentTime}"></span>
-              </td>
+          <td>
+            <form action="/accept-appointment" method="post">
+              <input type="hidden" name="id" th:value="${appointment.id}" />
 
-              <td>
-                <!-- ACCEPT FORM -->
+              <select name="appointmentDate">
+                <option>Today</option>
+                <option>Tomorrow</option>
+              </select>
 
-                <form action="/accept-appointment" method="post">
-                  <input type="hidden" name="id" th:value="${appointment.id}" />
+              <select name="appointmentTime">
+                <option>10 AM</option>
+                <option>11 AM</option>
+                <option>12 PM</option>
+                <option>2 PM</option>
+                <option>3 PM</option>
+                <option>4 PM</option>
+              </select>
 
-                  <select name="appointmentDate" class="form-select mb-2">
-                    <option value="Today">Today</option>
+              <button class="btn green" type="submit">Accept</button>
+            </form>
 
-                    <option value="Tomorrow">Tomorrow</option>
-                  </select>
+            <form action="/reject-appointment" method="post">
+              <input type="hidden" name="id" th:value="${appointment.id}" />
 
-                  <select name="appointmentTime" class="form-select mb-2">
-                    <option value="10 AM">10 AM</option>
-
-                    <option value="12 PM">12 PM</option>
-
-                    <option value="3 PM">3 PM</option>
-
-                    <option value="5 PM">5 PM</option>
-
-                    <option value="7 PM">7 PM</option>
-                  </select>
-
-                  <button class="btn btn-success btn-sm">Accept</button>
-                </form>
-
-                <!-- REJECT -->
-
-                <form action="/reject-appointment" method="post" class="mt-2">
-                  <input type="hidden" name="id" th:value="${appointment.id}" />
-
-                  <button class="btn btn-danger btn-sm">Reject</button>
-                </form>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+              <button class="btn red" type="submit">Reject</button>
+            </form>
+          </td>
+        </tr>
+      </table>
     </div>
   </body>
 </html>
