@@ -5,4 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PharmacistRepository extends JpaRepository<Pharmacist, Integer> {
 
+    Pharmacist findByEmailAndPassword(
+            String email,
+            String password);
 }

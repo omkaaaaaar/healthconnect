@@ -17,6 +17,8 @@ import com.healthconnect.entity.Pharmacist;
 import com.healthconnect.repository.PharmacistRepository;
 import com.healthconnect.entity.Medicine;
 import com.healthconnect.repository.MedicineRepository;
+import jakarta.servlet.http.HttpSession;
+import org.springframework.ui.Model;
 
 import java.util.List;
 
@@ -230,6 +232,54 @@ public class HomeController {
 
         return "pharmacist/medicine-list";
 
+    }
+
+    @GetMapping("/patient-dashboard")
+    public String patientDashboard(
+            HttpSession session,
+            Model model) {
+
+        model.addAttribute(
+                "patientName",
+                session.getAttribute("patientName"));
+
+        model.addAttribute(
+                "patientCity",
+                session.getAttribute("patientCity"));
+
+        return "patient/patient-dashboard";
+    }
+
+    @GetMapping("/doctor-dashboard")
+    public String doctorDashboard(
+            HttpSession session,
+            Model model) {
+
+        model.addAttribute(
+                "doctorName",
+                session.getAttribute("doctorName"));
+
+        model.addAttribute(
+                "doctorCity",
+                session.getAttribute("doctorCity"));
+
+        return "doctor/doctor-dashboard";
+    }
+
+    @GetMapping("/pharmacist-dashboard")
+    public String pharmacistDashboard(
+            HttpSession session,
+            Model model) {
+
+        model.addAttribute(
+                "pharmacyName",
+                session.getAttribute("pharmacyName"));
+
+        model.addAttribute(
+                "pharmacyCity",
+                session.getAttribute("pharmacyCity"));
+
+        return "pharmacist/pharmacist-dashboard";
     }
 
 }

@@ -9,4 +9,8 @@ public interface DoctorRepository extends JpaRepository<Doctor, Integer> {
 
     List<Doctor> findByCity(String city);
 
+    Doctor findByEmailAndPassword(
+            String email,
+            String password);
+
 }
