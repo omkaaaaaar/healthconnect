@@ -2,6 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="UTF-8" />
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>HealthConnect</title>
@@ -41,16 +42,14 @@
         color: var(--text);
       }
 
-      /* CONTAINER */
+      a {
+        text-decoration: none;
+      }
 
       .container {
         width: 90%;
         max-width: 1300px;
         margin: auto;
-      }
-
-      a {
-        text-decoration: none;
       }
 
       /* NAVBAR */
@@ -171,6 +170,7 @@
 
       .hero-wrapper {
         display: grid;
+
         grid-template-columns: 1fr 1fr;
 
         gap: 70px;
@@ -202,10 +202,6 @@
         flex-wrap: wrap;
       }
 
-      .hero-image {
-        position: relative;
-      }
-
       .hero-image img {
         width: 100%;
 
@@ -214,7 +210,7 @@
         box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15);
       }
 
-      /* SERVICES */
+      /* SECTION */
 
       .section {
         padding: 80px 0;
@@ -236,6 +232,8 @@
 
         font-size: 18px;
       }
+
+      /* SERVICES */
 
       .services-grid {
         display: grid;
@@ -296,7 +294,7 @@
         line-height: 1.8;
       }
 
-      /* WHY SECTION */
+      /* WHY US */
 
       .why-grid {
         display: grid;
@@ -522,21 +520,19 @@
         <!-- NAV LINKS -->
 
         <div class="nav-links">
-          <a href="http://localhost:8080/"> Home </a>
+          <a href="/">Home</a>
 
-          <a href="http://localhost:8080/search-doctors"> Doctors </a>
+          <a href="/login">Book Appointment</a>
 
-          <a href="http://localhost:8080/medicine-search"> Medicines </a>
+          <a href="/login">Find Medicines</a>
 
-          <a href="#"> Health Records </a>
-
-          <a href="#"> Health Tips </a>
+          <a href="/health-tips">Health Tips</a>
         </div>
 
         <!-- NAV BUTTONS -->
 
         <div class="nav-actions">
-          <a href="http://localhost:8080/login">
+          <a href="/login">
             <button class="btn btn-outline">
               <i class="fa-solid fa-right-to-bracket"></i>
 
@@ -544,7 +540,7 @@
             </button>
           </a>
 
-          <a href="http://localhost:8080/signup">
+          <a href="/signup">
             <button class="btn btn-primary">Signup</button>
           </a>
         </div>
@@ -561,17 +557,16 @@
           <h1>Healthcare Access For Every Patient</h1>
 
           <p>
-            Book appointments, consult doctors online, search medicines nearby,
-            and manage your healthcare records through one modern healthcare
-            platform.
+            Book appointments, consult doctors online, find medicines nearby and
+            manage healthcare through one connected digital platform.
           </p>
 
           <div class="hero-buttons">
-            <a href="http://localhost:8080/search-doctors">
-              <button class="btn btn-primary">Talk To Doctor</button>
+            <a href="/login">
+              <button class="btn btn-primary">Book Appointment</button>
             </a>
 
-            <a href="http://localhost:8080/medicine-search">
+            <a href="/login">
               <button class="btn btn-outline">Find Medicines</button>
             </a>
           </div>
@@ -581,7 +576,7 @@
 
         <div class="hero-image">
           <img
-            src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?q=80&w=1400&auto=format&fit=crop"
+            src="https://images.unsplash.com/photo-1584515933487-779824d29309?q=80&w=1400&auto=format&fit=crop"
             alt="Healthcare"
           />
         </div>
@@ -601,27 +596,14 @@
         <div class="services-grid">
           <div class="service-card">
             <div class="service-icon">
-              <i class="fa-solid fa-user-doctor"></i>
+              <i class="fa-solid fa-calendar-check"></i>
             </div>
 
-            <h3>Talk To Doctor</h3>
+            <h3>Book Appointment</h3>
 
             <p>
-              Consult experienced healthcare professionals through online
-              appointments and consultations.
-            </p>
-          </div>
-
-          <div class="service-card">
-            <div class="service-icon">
-              <i class="fa-solid fa-stethoscope"></i>
-            </div>
-
-            <h3>Check Symptoms</h3>
-
-            <p>
-              Track symptoms and get healthcare guidance using modern digital
-              healthcare tools.
+              Book consultations with experienced doctors through our modern
+              healthcare platform.
             </p>
           </div>
 
@@ -633,21 +615,20 @@
             <h3>Find Medicines</h3>
 
             <p>
-              Search medicines and pharmacies with real-time medicine
-              availability updates.
+              Search nearby pharmacies and medicine availability in real-time.
             </p>
           </div>
 
           <div class="service-card">
             <div class="service-icon">
-              <i class="fa-solid fa-file-medical"></i>
+              <i class="fa-solid fa-user-shield"></i>
             </div>
 
-            <h3>Health Records</h3>
+            <h3>Verified Healthcare</h3>
 
             <p>
-              Securely manage prescriptions, appointments and healthcare
-              history.
+              Connect with trusted doctors, pharmacies and secure healthcare
+              systems.
             </p>
           </div>
         </div>
@@ -751,8 +732,8 @@
         <div class="testimonial-grid">
           <div class="testimonial-card">
             <p>
-              “HealthConnect made online consultations extremely simple and
-              fast. The doctor search experience feels premium.”
+              “HealthConnect made appointments extremely simple and fast. The UI
+              feels premium.”
             </p>
 
             <div class="user">
@@ -785,7 +766,7 @@
 
           <div class="testimonial-card">
             <p>
-              “Modern UI, easy appointments, and smooth healthcare experience
+              “Modern UI, easy appointments and smooth healthcare experience
               overall.”
             </p>
 
@@ -826,11 +807,11 @@
           <h3>Quick Links</h3>
 
           <div class="footer-links">
-            <a href="http://localhost:8080/"> Home </a>
+            <a href="/">Home</a>
 
-            <a href="http://localhost:8080/search-doctors"> Doctors </a>
+            <a href="/login"> Book Appointment </a>
 
-            <a href="http://localhost:8080/search-medicines"> Medicines </a>
+            <a href="/login"> Find Medicines </a>
           </div>
         </div>
 

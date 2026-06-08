@@ -52,6 +52,12 @@ public class HomeController {
         return "index";
     }
 
+    @GetMapping("/health-tips")
+    public String healthTips() {
+
+        return "health-tips";
+    }
+
     // =================================
     // PATIENT
     // =================================
