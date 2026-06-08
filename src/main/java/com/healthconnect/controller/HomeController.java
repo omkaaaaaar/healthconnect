@@ -10,6 +10,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import com.healthconnect.entity.Appointment;
+import com.healthconnect.repository.AppointmentRepository;
+import java.util.Optional;
+import com.healthconnect.entity.Pharmacist;
+import com.healthconnect.repository.PharmacistRepository;
 
 import java.util.List;
 
@@ -21,6 +26,12 @@ public class HomeController {
 
     @Autowired
     private DoctorRepository doctorRepository;
+
+    @Autowired
+    private AppointmentRepository appointmentRepository;
+
+    @Autowired
+    private PharmacistRepository pharmacistRepository;
 
     @GetMapping("/")
     public String homePage() {
@@ -86,6 +97,93 @@ public class HomeController {
         model.addAttribute("doctors", doctors);
 
         return "doctor/list";
+
+    }
+
+    @GetMapping("/patient/book-appointment")
+    public String bookAppointmentPage() {
+        return "patient/book-appointment";
+    }
+
+    @PostMapping("/save-appointment")
+    public String saveAppointment(Appointment appointment) {
+
+        appointment.setStatus("Pending");
+
+        appointmentRepository.save(appointment);
+
+        return "redirect:/appointments";
+
+    }
+
+    @GetMapping("/appointments")
+    public String appointmentList(Model model) {
+
+        List<Appointment> appointments = appointmentRepository.findAll();
+
+        model.addAttribute("appointments", appointments);
+
+        return "doctor/appointments";
+
+    }
+
+    @GetMapping("/appointment/accept/{id}")
+    public String acceptAppointment(@org.springframework.web.bind.annotation.PathVariable int id) {
+
+        Optional<Appointment> optionalAppointment = appointmentRepository.findById(id);
+
+        if (optionalAppointment.isPresent()) {
+
+            Appointment appointment = optionalAppointment.get();
+
+            appointment.setStatus("Accepted");
+
+            appointmentRepository.save(appointment);
+        }
+
+        return "redirect:/appointments";
+
+    }
+
+    @GetMapping("/appointment/reject/{id}")
+    public String rejectAppointment(@org.springframework.web.bind.annotation.PathVariable int id) {
+
+        Optional<Appointment> optionalAppointment = appointmentRepository.findById(id);
+
+        if (optionalAppointment.isPresent()) {
+
+            Appointment appointment = optionalAppointment.get();
+
+            appointment.setStatus("Rejected");
+
+            appointmentRepository.save(appointment);
+        }
+
+        return "redirect:/appointments";
+
+    }
+
+    @GetMapping("/pharmacist/register")
+    public String pharmacistRegisterPage() {
+        return "pharmacist/register";
+    }
+
+    @PostMapping("/save-pharmacist")
+    public String savePharmacist(Pharmacist pharmacist) {
+
+        pharmacistRepository.save(pharmacist);
+
+        return "redirect:/pharmacists";
+
+    }
+
+    @GetMapping("/pharmacists")
+    public String pharmacistList(Model model) {
+
+        model.addAttribute("pharmacists",
+                pharmacistRepository.findAll());
+
+        return "pharmacist/list";
 
     }
 
