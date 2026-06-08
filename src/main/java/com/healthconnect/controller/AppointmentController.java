@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import jakarta.servlet.http.HttpSession;
-
 import java.util.List;
 
 @Controller
@@ -23,19 +21,33 @@ public class AppointmentController {
         @Autowired
         private AppointmentRepository appointmentRepository;
 
-        // ==============================
+        // =====================================
         // BOOK APPOINTMENT PAGE
-        // ==============================
+        // =====================================
 
         @GetMapping("/book-appointment")
-        public String bookAppointmentPage() {
+        public String bookAppointmentPage(
+
+                        @RequestParam(required = false) String doctorName,
+
+                        @RequestParam(required = false) String city,
+
+                        Model model) {
+
+                model.addAttribute(
+                                "doctorName",
+                                doctorName);
+
+                model.addAttribute(
+                                "city",
+                                city);
 
                 return "appointment/book-appointment";
         }
 
-        // ==============================
+        // =====================================
         // SAVE APPOINTMENT
-        // ==============================
+        // =====================================
 
         @PostMapping("/save-appointment")
         public String saveAppointment(
@@ -63,17 +75,26 @@ public class AppointmentController {
                 appointmentRepository.save(
                                 appointment);
 
-                return "redirect:/appointments";
+                return "redirect:/my-appointments";
         }
 
-        // ==============================
-        // VIEW ALL APPOINTMENTS
-        // ==============================
+        // =====================================
+        // VIEW APPOINTMENTS
+        // =====================================
 
         @GetMapping("/appointments")
-        public String appointments(Model model) {
+        public String appointments(
 
-                List<Appointment> appointments = appointmentRepository.findAll();
+                        HttpSession session,
+
+                        Model model) {
+
+                String doctorName = (String) session.getAttribute(
+                                "doctorName");
+
+                List<Appointment> appointments = appointmentRepository
+                                .findByDoctorName(
+                                                doctorName);
 
                 model.addAttribute(
                                 "appointments",
@@ -82,13 +103,15 @@ public class AppointmentController {
                 return "appointment/appointments";
         }
 
-        // ==============================
+        // =====================================
         // APPOINTMENT APPROVAL PAGE
-        // ==============================
+        // =====================================
 
         @GetMapping("/appointment-approval")
         public String appointmentApproval(
+
                         HttpSession session,
+
                         Model model) {
 
                 String doctorName = (String) session.getAttribute(
@@ -103,12 +126,11 @@ public class AppointmentController {
                                 appointments);
 
                 return "appointment/appointment-approval";
-
         }
 
-        // ==============================
+        // =====================================
         // ACCEPT APPOINTMENT
-        // ==============================
+        // =====================================
 
         @PostMapping("/accept-appointment")
         public String acceptAppointment(
@@ -138,9 +160,9 @@ public class AppointmentController {
                 return "redirect:/appointment-approval";
         }
 
-        // ==============================
+        // =====================================
         // REJECT APPOINTMENT
-        // ==============================
+        // =====================================
 
         @PostMapping("/reject-appointment")
         public String rejectAppointment(

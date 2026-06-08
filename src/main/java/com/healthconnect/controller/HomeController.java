@@ -111,25 +111,26 @@ public class HomeController {
     // =================================
     // SEARCH DOCTORS
     // =================================
-
-    @GetMapping("/patient/search-doctors")
-    public String searchDoctorPage() {
-
-        return "patient/search-doctors";
-    }
-
     @GetMapping("/search-doctors")
     public String searchDoctors(
-            @RequestParam String city,
+
+            @RequestParam(required = false) String city,
+
             Model model) {
+
+        // If no city entered
+        // show empty page safely
+
+        if (city == null || city.isEmpty()) {
+
+            return "patient/search-doctors";
+        }
 
         List<Doctor> doctors = doctorRepository.findByCity(city);
 
-        model.addAttribute(
-                "doctors",
-                doctors);
+        model.addAttribute("doctors", doctors);
 
-        return "doctor/list";
+        return "patient/search-doctors";
     }
 
     // =================================

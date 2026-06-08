@@ -1,42 +1,452 @@
 <!DOCTYPE html>
-
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
   <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <title>Search Doctors</title>
 
-    ```
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+
     <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
-    ```
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Inter", sans-serif;
+      }
+
+      :root {
+        --primary: #4f7df3;
+        --secondary: #2563eb;
+        --bg: #f5f7fb;
+        --text: #0f172a;
+        --sub: #64748b;
+        --card: #ffffff;
+        --border: #e2e8f0;
+        --success: #10b981;
+      }
+
+      body {
+        background: var(--bg);
+        color: var(--text);
+      }
+
+      .dashboard {
+        display: flex;
+        min-height: 100vh;
+      }
+
+      .sidebar {
+        width: 290px;
+        background: white;
+        border-right: 1px solid var(--border);
+        padding: 30px 24px;
+        position: fixed;
+        height: 100vh;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin-bottom: 50px;
+      }
+
+      .logo-icon {
+        width: 54px;
+        height: 54px;
+        border-radius: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: white;
+        font-size: 24px;
+        box-shadow: 0 12px 30px rgba(79, 125, 243, 0.25);
+      }
+
+      .logo h2 {
+        font-size: 28px;
+        font-weight: 800;
+      }
+
+      .menu {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+
+      .menu a {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 16px 18px;
+        border-radius: 18px;
+        color: var(--text);
+        text-decoration: none;
+        font-weight: 600;
+        transition: 0.3s;
+      }
+
+      .menu a:hover {
+        background: #eef2ff;
+        color: var(--primary);
+        transform: translateX(4px);
+      }
+
+      .menu .active {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: white;
+      }
+
+      .main {
+        flex: 1;
+        margin-left: 290px;
+        padding: 34px;
+      }
+
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 34px;
+      }
+
+      .topbar h1 {
+        font-size: 38px;
+        margin-bottom: 8px;
+      }
+
+      .topbar p {
+        color: var(--sub);
+      }
+
+      .top-icon {
+        width: 64px;
+        height: 64px;
+        border-radius: 22px;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 28px;
+      }
+
+      .search-card {
+        background: white;
+        border-radius: 34px;
+        padding: 40px;
+        border: 1px solid var(--border);
+        margin-bottom: 36px;
+      }
+
+      .search-header {
+        text-align: center;
+        margin-bottom: 34px;
+      }
+
+      .search-header h2 {
+        font-size: 34px;
+        margin-bottom: 12px;
+      }
+
+      .search-header p {
+        color: var(--sub);
+      }
+
+      .search-form {
+        display: flex;
+        gap: 18px;
+        align-items: center;
+      }
+
+      .input-group {
+        flex: 1;
+      }
+
+      .input-group label {
+        display: block;
+        margin-bottom: 12px;
+        font-size: 15px;
+        font-weight: 600;
+      }
+
+      .input-wrapper {
+        position: relative;
+      }
+
+      .input-wrapper i {
+        position: absolute;
+        left: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--primary);
+      }
+
+      .input-wrapper input {
+        width: 100%;
+        height: 62px;
+        border-radius: 20px;
+        border: 1px solid var(--border);
+        padding-left: 56px;
+        font-size: 16px;
+        outline: none;
+      }
+
+      .search-btn {
+        height: 62px;
+        padding: 0 34px;
+        border: none;
+        border-radius: 20px;
+        background: linear-gradient(135deg, #10b981, #059669);
+        color: white;
+        font-size: 16px;
+        font-weight: 700;
+        cursor: pointer;
+        margin-top: 30px;
+      }
+
+      .section-title {
+        font-size: 30px;
+        margin-bottom: 24px;
+      }
+
+      .doctor-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+        gap: 28px;
+      }
+
+      .doctor-card {
+        background: white;
+        border-radius: 32px;
+        padding: 30px;
+        border: 1px solid var(--border);
+      }
+
+      .doctor-top {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        margin-bottom: 24px;
+      }
+
+      .doctor-avatar {
+        width: 80px;
+        height: 80px;
+        border-radius: 24px;
+        background: #eef2ff;
+        color: var(--primary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 34px;
+      }
+
+      .doctor-top h3 {
+        font-size: 24px;
+        margin-bottom: 8px;
+      }
+
+      .specialization {
+        display: inline-block;
+        padding: 8px 14px;
+        border-radius: 999px;
+        background: #eef2ff;
+        color: var(--primary);
+        font-size: 13px;
+        font-weight: 700;
+      }
+
+      .info-list {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        margin-bottom: 26px;
+      }
+
+      .info-item {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        color: var(--sub);
+      }
+
+      .info-item i {
+        width: 42px;
+        height: 42px;
+        border-radius: 14px;
+        background: #f8fafc;
+        color: var(--primary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .book-btn {
+        width: 100%;
+        height: 58px;
+        border: none;
+        border-radius: 18px;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: white;
+        font-size: 16px;
+        font-weight: 700;
+        cursor: pointer;
+      }
+    </style>
   </head>
 
-  <body class="bg-light">
-    <div class="container mt-5">
-      ```
-      <div class="card shadow p-5">
-        <h2 class="text-center text-primary mb-4">Search Doctors by City</h2>
-
-        <form action="/search-doctors" method="get">
-          <div class="mb-3">
-            <label class="form-label">Enter City</label>
-
-            <input
-              type="text"
-              name="city"
-              class="form-control"
-              placeholder="Mumbai"
-              required
-            />
+  <body>
+    <div class="dashboard">
+      <div class="sidebar">
+        <div class="logo">
+          <div class="logo-icon">
+            <i class="fa-solid fa-heart-pulse"></i>
           </div>
 
-          <button type="submit" class="btn btn-success w-100">
+          <h2>HealthConnect</h2>
+        </div>
+
+        <div class="menu">
+          <a href="http://localhost:8080/patient-dashboard">
+            <i class="fa-solid fa-house"></i>
+            Dashboard
+          </a>
+
+          <a href="http://localhost:8080/search-doctors" class="active">
+            <i class="fa-solid fa-user-doctor"></i>
             Search Doctors
-          </button>
-        </form>
+          </a>
+
+          <a href="http://localhost:8080/search-medicines">
+            <i class="fa-solid fa-capsules"></i>
+            Search Medicines
+          </a>
+
+          <a href="http://localhost:8080/my-appointments">
+            <i class="fa-solid fa-calendar-check"></i>
+            My Appointments
+          </a>
+
+          <a href="http://localhost:8080/logout">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            Logout
+          </a>
+        </div>
       </div>
-      ```
+
+      <div class="main">
+        <div class="topbar">
+          <div>
+            <h1>Search Doctors</h1>
+            <p>Find nearby healthcare professionals based on your city.</p>
+          </div>
+
+          <div class="top-icon">
+            <i class="fa-solid fa-user-doctor"></i>
+          </div>
+        </div>
+
+        <div class="search-card">
+          <div class="search-header">
+            <h2>Find Nearby Doctors</h2>
+
+            <p>
+              Search doctors by city and connect with healthcare professionals
+              instantly.
+            </p>
+          </div>
+
+          <form action="/search-doctors" method="get" class="search-form">
+            <div class="input-group">
+              <label>Enter City</label>
+
+              <div class="input-wrapper">
+                <i class="fa-solid fa-location-dot"></i>
+
+                <input
+                  type="text"
+                  name="city"
+                  placeholder="Ex: Mumbai"
+                  required
+                />
+              </div>
+            </div>
+
+            <button type="submit" class="search-btn">Search Doctors</button>
+          </form>
+        </div>
+
+        <h2 class="section-title">Available Doctors</h2>
+
+        <div class="doctor-grid">
+          <div class="doctor-card" th:each="doctor : ${doctors}">
+            <div class="doctor-top">
+              <div class="doctor-avatar">
+                <i class="fa-solid fa-user-doctor"></i>
+              </div>
+
+              <div>
+                <h3 th:text="${doctor.fullName}"></h3>
+
+                <span class="specialization" th:text="${doctor.specialization}">
+                </span>
+              </div>
+            </div>
+
+            <div class="info-list">
+              <div class="info-item">
+                <i class="fa-solid fa-location-dot"></i>
+
+                <span th:text="${doctor.city}"></span>
+              </div>
+
+              <div class="info-item">
+                <i class="fa-solid fa-phone"></i>
+
+                <span th:text="${doctor.phoneNumber}"></span>
+              </div>
+
+              <div class="info-item">
+                <i class="fa-solid fa-hospital"></i>
+
+                <span th:text="${doctor.clinicAddress}"></span>
+              </div>
+
+              <div class="info-item">
+                <i class="fa-solid fa-clock"></i>
+
+                <span th:text="${doctor.timings}"></span>
+              </div>
+            </div>
+
+            <!-- FIXED BUTTON -->
+
+            <a
+              th:href="@{/book-appointment(
+                doctorName=${doctor.fullName},
+                city=${doctor.city}
+              )}"
+            >
+              <button type="button" class="book-btn">Book Appointment</button>
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
   </body>
 </html>
