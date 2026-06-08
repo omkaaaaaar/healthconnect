@@ -15,6 +15,8 @@ import com.healthconnect.repository.AppointmentRepository;
 import java.util.Optional;
 import com.healthconnect.entity.Pharmacist;
 import com.healthconnect.repository.PharmacistRepository;
+import com.healthconnect.entity.Medicine;
+import com.healthconnect.repository.MedicineRepository;
 
 import java.util.List;
 
@@ -32,6 +34,9 @@ public class HomeController {
 
     @Autowired
     private PharmacistRepository pharmacistRepository;
+
+    @Autowired
+    private MedicineRepository medicineRepository;
 
     @GetMapping("/")
     public String homePage() {
@@ -184,6 +189,46 @@ public class HomeController {
                 pharmacistRepository.findAll());
 
         return "pharmacist/list";
+
+    }
+
+    @GetMapping("/pharmacist/add-medicine")
+    public String addMedicinePage() {
+        return "pharmacist/add-medicine";
+    }
+
+    @PostMapping("/save-medicine")
+    public String saveMedicine(Medicine medicine) {
+
+        medicineRepository.save(medicine);
+
+        return "redirect:/medicines";
+
+    }
+
+    @GetMapping("/medicines")
+    public String medicineList(Model model) {
+
+        model.addAttribute("medicines",
+                medicineRepository.findAll());
+
+        return "pharmacist/medicine-list";
+
+    }
+
+    @GetMapping("/patient/search-medicine")
+    public String searchMedicinePage() {
+        return "patient/search-medicine";
+    }
+
+    @GetMapping("/search-medicines")
+    public String searchMedicines(@RequestParam String city,
+            Model model) {
+
+        model.addAttribute("medicines",
+                medicineRepository.findByCity(city));
+
+        return "pharmacist/medicine-list";
 
     }
 

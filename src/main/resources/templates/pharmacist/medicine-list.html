@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>Medicines</title>
+
+    ```
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    ```
+  </head>
+
+  <body class="bg-light">
+    <div class="container mt-5">
+      ```
+      <div class="card shadow p-4">
+        <h2 class="text-center text-primary mb-4">Available Medicines</h2>
+
+        <table class="table table-bordered table-hover">
+          <thead class="table-dark">
+            <tr>
+              <th>ID</th>
+              <th>Medicine</th>
+              <th>Pharmacy</th>
+              <th>Address</th>
+              <th>City</th>
+              <th>Quantity</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr th:each="medicine : ${medicines}">
+              <td th:text="${medicine.id}"></td>
+
+              <td th:text="${medicine.medicineName}"></td>
+
+              <td th:text="${medicine.pharmacyName}"></td>
+
+              <td th:text="${medicine.pharmacyAddress}"></td>
+
+              <td th:text="${medicine.city}"></td>
+
+              <td th:text="${medicine.quantity}"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      ```
+    </div>
+  </body>
+</html>

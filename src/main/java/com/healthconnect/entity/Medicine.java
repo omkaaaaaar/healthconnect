@@ -65,4 +65,12 @@ public class Medicine {
         this.quantity = quantity;
     }
 
+    public String getPharmacyAddress() {
+        return pharmacyAddress;
+    }
+
+    public void setPharmacyAddress(String pharmacyAddress) {
+        this.pharmacyAddress = pharmacyAddress;
+    }
+
 }
