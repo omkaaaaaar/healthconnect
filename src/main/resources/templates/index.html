@@ -1,32 +1,851 @@
 <!DOCTYPE html>
-
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
   <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <title>HealthConnect</title>
 
-    ```
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+
     <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
-    ```
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Inter", sans-serif;
+      }
+
+      :root {
+        --primary: #4f7df3;
+        --secondary: #2563eb;
+        --bg: #f5f7fb;
+        --text: #0f172a;
+        --sub: #64748b;
+        --card: #ffffff;
+        --border: #e2e8f0;
+      }
+
+      body {
+        background: var(--bg);
+        color: var(--text);
+      }
+
+      /* CONTAINER */
+
+      .container {
+        width: 90%;
+        max-width: 1300px;
+        margin: auto;
+      }
+
+      a {
+        text-decoration: none;
+      }
+
+      /* NAVBAR */
+
+      .navbar {
+        position: sticky;
+        top: 0;
+        z-index: 999;
+
+        background: rgba(255, 255, 255, 0.92);
+
+        backdrop-filter: blur(14px);
+
+        border-bottom: 1px solid var(--border);
+      }
+
+      .nav-content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        padding: 18px 0;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+
+        font-size: 28px;
+        font-weight: 800;
+
+        color: var(--text);
+      }
+
+      .logo-icon {
+        width: 52px;
+        height: 52px;
+
+        border-radius: 18px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+
+        color: white;
+        font-size: 22px;
+
+        box-shadow: 0 10px 25px rgba(79, 125, 243, 0.25);
+      }
+
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 34px;
+      }
+
+      .nav-links a {
+        color: var(--text);
+
+        font-weight: 600;
+
+        transition: 0.3s;
+      }
+
+      .nav-links a:hover {
+        color: var(--primary);
+      }
+
+      .nav-actions {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+
+      .btn {
+        border: none;
+
+        padding: 14px 26px;
+
+        border-radius: 16px;
+
+        font-size: 15px;
+        font-weight: 700;
+
+        cursor: pointer;
+
+        transition: 0.35s;
+      }
+
+      .btn-outline {
+        background: white;
+
+        border: 2px solid var(--primary);
+
+        color: var(--primary);
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+
+        color: white;
+
+        box-shadow: 0 15px 30px rgba(79, 125, 243, 0.25);
+      }
+
+      .btn:hover {
+        transform: translateY(-4px);
+      }
+
+      /* HERO */
+
+      .hero {
+        padding: 90px 0;
+      }
+
+      .hero-wrapper {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+
+        gap: 70px;
+        align-items: center;
+      }
+
+      .hero-text h1 {
+        font-size: 72px;
+        line-height: 1.08;
+
+        margin-bottom: 24px;
+
+        font-weight: 800;
+      }
+
+      .hero-text p {
+        color: var(--sub);
+
+        font-size: 20px;
+
+        line-height: 1.8;
+
+        margin-bottom: 34px;
+      }
+
+      .hero-buttons {
+        display: flex;
+        gap: 18px;
+        flex-wrap: wrap;
+      }
+
+      .hero-image {
+        position: relative;
+      }
+
+      .hero-image img {
+        width: 100%;
+
+        border-radius: 36px;
+
+        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15);
+      }
+
+      /* SERVICES */
+
+      .section {
+        padding: 80px 0;
+      }
+
+      .section-title {
+        text-align: center;
+        margin-bottom: 60px;
+      }
+
+      .section-title h2 {
+        font-size: 48px;
+
+        margin-bottom: 14px;
+      }
+
+      .section-title p {
+        color: var(--sub);
+
+        font-size: 18px;
+      }
+
+      .services-grid {
+        display: grid;
+
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+
+        gap: 28px;
+      }
+
+      .service-card {
+        background: white;
+
+        border-radius: 30px;
+
+        padding: 34px;
+
+        border: 1px solid var(--border);
+
+        transition: 0.35s;
+
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+      }
+
+      .service-card:hover {
+        transform: translateY(-8px);
+
+        box-shadow: 0 25px 50px rgba(79, 125, 243, 0.15);
+      }
+
+      .service-icon {
+        width: 74px;
+        height: 74px;
+
+        border-radius: 22px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        background: #eef2ff;
+
+        color: var(--primary);
+
+        font-size: 30px;
+
+        margin-bottom: 24px;
+      }
+
+      .service-card h3 {
+        font-size: 24px;
+
+        margin-bottom: 14px;
+      }
+
+      .service-card p {
+        color: var(--sub);
+
+        line-height: 1.8;
+      }
+
+      /* WHY SECTION */
+
+      .why-grid {
+        display: grid;
+
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+
+        gap: 28px;
+      }
+
+      .why-card {
+        background: white;
+
+        border-radius: 28px;
+
+        padding: 32px;
+
+        text-align: center;
+
+        border: 1px solid var(--border);
+
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+
+        transition: 0.35s;
+      }
+
+      .why-card:hover {
+        transform: translateY(-6px);
+      }
+
+      .why-icon {
+        width: 78px;
+        height: 78px;
+
+        border-radius: 24px;
+
+        margin: auto;
+        margin-bottom: 22px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+
+        color: white;
+        font-size: 30px;
+      }
+
+      /* STATS */
+
+      .stats-grid {
+        display: grid;
+
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+
+        gap: 26px;
+      }
+
+      .stat-card {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+
+        color: white;
+
+        border-radius: 30px;
+
+        padding: 42px;
+
+        text-align: center;
+
+        box-shadow: 0 20px 40px rgba(79, 125, 243, 0.22);
+      }
+
+      .stat-card h3 {
+        font-size: 54px;
+
+        margin-bottom: 10px;
+      }
+
+      /* TESTIMONIALS */
+
+      .testimonial-grid {
+        display: grid;
+
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+
+        gap: 28px;
+      }
+
+      .testimonial-card {
+        background: rgba(255, 255, 255, 0.75);
+
+        backdrop-filter: blur(12px);
+
+        border-radius: 30px;
+
+        padding: 34px;
+
+        border: 1px solid rgba(255, 255, 255, 0.4);
+
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+      }
+
+      .testimonial-card p {
+        color: var(--sub);
+
+        line-height: 1.8;
+
+        margin-bottom: 20px;
+      }
+
+      .user {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+
+      .user img {
+        width: 58px;
+        height: 58px;
+
+        border-radius: 50%;
+
+        object-fit: cover;
+      }
+
+      /* FOOTER */
+
+      footer {
+        margin-top: 70px;
+
+        background: #0f172a;
+
+        color: white;
+
+        padding: 80px 0;
+      }
+
+      .footer-grid {
+        display: grid;
+
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+
+        gap: 40px;
+      }
+
+      .footer-grid p {
+        color: #cbd5e1;
+
+        line-height: 1.8;
+
+        margin-top: 16px;
+      }
+
+      .footer-links {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+
+        margin-top: 18px;
+      }
+
+      .footer-links a {
+        color: #cbd5e1;
+
+        transition: 0.3s;
+      }
+
+      .footer-links a:hover {
+        color: white;
+      }
+
+      /* RESPONSIVE */
+
+      @media (max-width: 992px) {
+        .hero-wrapper {
+          grid-template-columns: 1fr;
+        }
+
+        .hero-text h1 {
+          font-size: 56px;
+        }
+
+        .nav-links {
+          display: none;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .hero-text h1 {
+          font-size: 42px;
+        }
+
+        .hero-text p {
+          font-size: 18px;
+        }
+
+        .section-title h2 {
+          font-size: 36px;
+        }
+
+        .nav-actions {
+          flex-direction: column;
+        }
+      }
+    </style>
   </head>
 
-  <body class="bg-light">
-    <div class="container mt-5">
-      ```
-      <div class="card shadow p-5 text-center">
-        <h1 class="text-primary">Welcome to HealthConnect</h1>
+  <body>
+    <!-- NAVBAR -->
 
-        <p class="mt-3">
-          Healthcare platform for Patients, Doctors and Pharmacists.
-        </p>
+    <nav class="navbar">
+      <div class="container nav-content">
+        <!-- LOGO -->
 
-        <button class="btn btn-success mt-3">
-          Project Started Successfully
-        </button>
+        <div class="logo">
+          <div class="logo-icon">
+            <i class="fa-solid fa-heart-pulse"></i>
+          </div>
+
+          <span>HealthConnect</span>
+        </div>
+
+        <!-- NAV LINKS -->
+
+        <div class="nav-links">
+          <a href="http://localhost:8080/"> Home </a>
+
+          <a href="http://localhost:8080/search-doctors"> Doctors </a>
+
+          <a href="http://localhost:8080/medicine-search"> Medicines </a>
+
+          <a href="#"> Health Records </a>
+
+          <a href="#"> Health Tips </a>
+        </div>
+
+        <!-- NAV BUTTONS -->
+
+        <div class="nav-actions">
+          <a href="http://localhost:8080/login">
+            <button class="btn btn-outline">
+              <i class="fa-solid fa-right-to-bracket"></i>
+
+              &nbsp; Login
+            </button>
+          </a>
+
+          <a href="http://localhost:8080/signup">
+            <button class="btn btn-primary">Signup</button>
+          </a>
+        </div>
       </div>
-      ```
-    </div>
+    </nav>
+
+    <!-- HERO -->
+
+    <section class="hero">
+      <div class="container hero-wrapper">
+        <!-- LEFT -->
+
+        <div class="hero-text">
+          <h1>Healthcare Access For Every Patient</h1>
+
+          <p>
+            Book appointments, consult doctors online, search medicines nearby,
+            and manage your healthcare records through one modern healthcare
+            platform.
+          </p>
+
+          <div class="hero-buttons">
+            <a href="http://localhost:8080/search-doctors">
+              <button class="btn btn-primary">Talk To Doctor</button>
+            </a>
+
+            <a href="http://localhost:8080/medicine-search">
+              <button class="btn btn-outline">Find Medicines</button>
+            </a>
+          </div>
+        </div>
+
+        <!-- RIGHT -->
+
+        <div class="hero-image">
+          <img
+            src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?q=80&w=1400&auto=format&fit=crop"
+            alt="Healthcare"
+          />
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICES -->
+
+    <section class="section">
+      <div class="container">
+        <div class="section-title">
+          <h2>Complete Healthcare Solution</h2>
+
+          <p>Everything you need in one healthcare platform</p>
+        </div>
+
+        <div class="services-grid">
+          <div class="service-card">
+            <div class="service-icon">
+              <i class="fa-solid fa-user-doctor"></i>
+            </div>
+
+            <h3>Talk To Doctor</h3>
+
+            <p>
+              Consult experienced healthcare professionals through online
+              appointments and consultations.
+            </p>
+          </div>
+
+          <div class="service-card">
+            <div class="service-icon">
+              <i class="fa-solid fa-stethoscope"></i>
+            </div>
+
+            <h3>Check Symptoms</h3>
+
+            <p>
+              Track symptoms and get healthcare guidance using modern digital
+              healthcare tools.
+            </p>
+          </div>
+
+          <div class="service-card">
+            <div class="service-icon">
+              <i class="fa-solid fa-capsules"></i>
+            </div>
+
+            <h3>Find Medicines</h3>
+
+            <p>
+              Search medicines and pharmacies with real-time medicine
+              availability updates.
+            </p>
+          </div>
+
+          <div class="service-card">
+            <div class="service-icon">
+              <i class="fa-solid fa-file-medical"></i>
+            </div>
+
+            <h3>Health Records</h3>
+
+            <p>
+              Securely manage prescriptions, appointments and healthcare
+              history.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHY US -->
+
+    <section class="section">
+      <div class="container">
+        <div class="section-title">
+          <h2>Why Choose HealthConnect</h2>
+
+          <p>Modern healthcare experience built for everyone</p>
+        </div>
+
+        <div class="why-grid">
+          <div class="why-card">
+            <div class="why-icon">
+              <i class="fa-solid fa-shield-heart"></i>
+            </div>
+
+            <h3>Secure Platform</h3>
+
+            <p>
+              Protected healthcare data with secure patient management systems.
+            </p>
+          </div>
+
+          <div class="why-card">
+            <div class="why-icon">
+              <i class="fa-solid fa-user-check"></i>
+            </div>
+
+            <h3>Verified Doctors</h3>
+
+            <p>
+              Connect with experienced doctors and healthcare professionals
+              easily.
+            </p>
+          </div>
+
+          <div class="why-card">
+            <div class="why-icon">
+              <i class="fa-solid fa-clock"></i>
+            </div>
+
+            <h3>24/7 Access</h3>
+
+            <p>
+              Access healthcare services anytime from anywhere through digital
+              care.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STATS -->
+
+    <section class="section">
+      <div class="container">
+        <div class="stats-grid">
+          <div class="stat-card">
+            <h3>50K+</h3>
+
+            <p>Patients</p>
+          </div>
+
+          <div class="stat-card">
+            <h3>2K+</h3>
+
+            <p>Doctors</p>
+          </div>
+
+          <div class="stat-card">
+            <h3>120+</h3>
+
+            <p>Cities</p>
+          </div>
+
+          <div class="stat-card">
+            <h3>24/7</h3>
+
+            <p>Support</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+
+    <section class="section">
+      <div class="container">
+        <div class="section-title">
+          <h2>What Patients Say</h2>
+
+          <p>Trusted healthcare experience across India</p>
+        </div>
+
+        <div class="testimonial-grid">
+          <div class="testimonial-card">
+            <p>
+              “HealthConnect made online consultations extremely simple and
+              fast. The doctor search experience feels premium.”
+            </p>
+
+            <div class="user">
+              <img src="https://randomuser.me/api/portraits/women/44.jpg" />
+
+              <div>
+                <h4>Priya Sharma</h4>
+
+                <span>Mumbai</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial-card">
+            <p>
+              “The medicine search feature helped me find nearby pharmacies
+              quickly during emergencies.”
+            </p>
+
+            <div class="user">
+              <img src="https://randomuser.me/api/portraits/men/32.jpg" />
+
+              <div>
+                <h4>Rahul Mehta</h4>
+
+                <span>Pune</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial-card">
+            <p>
+              “Modern UI, easy appointments, and smooth healthcare experience
+              overall.”
+            </p>
+
+            <div class="user">
+              <img src="https://randomuser.me/api/portraits/women/68.jpg" />
+
+              <div>
+                <h4>Ananya Patil</h4>
+
+                <span>Navi Mumbai</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+
+    <footer>
+      <div class="container footer-grid">
+        <div>
+          <div class="logo">
+            <div class="logo-icon">
+              <i class="fa-solid fa-heart-pulse"></i>
+            </div>
+
+            <span style="color: white"> HealthConnect </span>
+          </div>
+
+          <p>
+            Modern healthcare platform for patients, doctors and pharmacies with
+            secure digital healthcare experiences.
+          </p>
+        </div>
+
+        <div>
+          <h3>Quick Links</h3>
+
+          <div class="footer-links">
+            <a href="http://localhost:8080/"> Home </a>
+
+            <a href="http://localhost:8080/search-doctors"> Doctors </a>
+
+            <a href="http://localhost:8080/search-medicines"> Medicines </a>
+          </div>
+        </div>
+
+        <div>
+          <h3>Services</h3>
+
+          <div class="footer-links">
+            <a href="#"> Online Consultation </a>
+
+            <a href="#"> Appointments </a>
+
+            <a href="#"> Medicine Search </a>
+          </div>
+        </div>
+      </div>
+    </footer>
   </body>
 </html>

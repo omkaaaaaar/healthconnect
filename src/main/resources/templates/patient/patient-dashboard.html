@@ -1,58 +1,634 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
   <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <title>Patient Dashboard</title>
 
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+
     <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Inter", sans-serif;
+      }
+
+      :root {
+        --primary: #4f7df3;
+        --secondary: #2563eb;
+        --bg: #f5f7fb;
+        --text: #0f172a;
+        --sub: #64748b;
+        --card: #ffffff;
+        --border: #e2e8f0;
+        --success: #10b981;
+        --danger: #ef4444;
+      }
+
+      body {
+        background: var(--bg);
+        color: var(--text);
+      }
+
+      /* MAIN LAYOUT */
+
+      .dashboard {
+        display: flex;
+        min-height: 100vh;
+      }
+
+      /* SIDEBAR */
+
+      .sidebar {
+        width: 280px;
+
+        background: white;
+
+        border-right: 1px solid var(--border);
+
+        padding: 30px 24px;
+
+        position: fixed;
+
+        height: 100vh;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+
+        margin-bottom: 50px;
+      }
+
+      .logo-icon {
+        width: 52px;
+        height: 52px;
+
+        border-radius: 18px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+
+        color: white;
+        font-size: 22px;
+
+        box-shadow: 0 12px 30px rgba(79, 125, 243, 0.25);
+      }
+
+      .logo h2 {
+        font-size: 28px;
+        font-weight: 800;
+      }
+
+      .menu {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+
+      .menu a {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+
+        padding: 16px 18px;
+
+        border-radius: 18px;
+
+        color: var(--text);
+
+        text-decoration: none;
+
+        font-weight: 600;
+
+        transition: 0.3s;
+      }
+
+      .menu a:hover {
+        background: #eef2ff;
+
+        color: var(--primary);
+
+        transform: translateX(4px);
+      }
+
+      .menu .active {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+
+        color: white;
+      }
+
+      /* MAIN CONTENT */
+
+      .main {
+        flex: 1;
+
+        margin-left: 280px;
+
+        padding: 34px;
+      }
+
+      /* TOPBAR */
+
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        margin-bottom: 34px;
+      }
+
+      .topbar h1 {
+        font-size: 34px;
+      }
+
+      .topbar p {
+        margin-top: 6px;
+
+        color: var(--sub);
+      }
+
+      .profile {
+        width: 52px;
+        height: 52px;
+
+        border-radius: 50%;
+
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+
+        color: white;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-weight: 700;
+      }
+
+      /* WELCOME BANNER */
+
+      .banner {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+
+        border-radius: 34px;
+
+        padding: 42px;
+
+        color: white;
+
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        gap: 30px;
+
+        margin-bottom: 34px;
+
+        box-shadow: 0 25px 50px rgba(79, 125, 243, 0.25);
+      }
+
+      .banner h2 {
+        font-size: 40px;
+
+        margin-bottom: 14px;
+      }
+
+      .banner p {
+        line-height: 1.8;
+
+        opacity: 0.95;
+      }
+
+      .banner-icon {
+        width: 120px;
+        height: 120px;
+
+        border-radius: 30px;
+
+        background: rgba(255, 255, 255, 0.15);
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-size: 50px;
+      }
+
+      /* QUICK ACTIONS */
+
+      .section-title {
+        font-size: 28px;
+
+        margin-bottom: 24px;
+      }
+
+      .grid {
+        display: grid;
+
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+
+        gap: 24px;
+
+        margin-bottom: 40px;
+      }
+
+      .card {
+        background: white;
+
+        border-radius: 28px;
+
+        padding: 28px;
+
+        border: 1px solid var(--border);
+
+        transition: 0.35s;
+
+        text-decoration: none;
+
+        color: var(--text);
+
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+      }
+
+      .card:hover {
+        transform: translateY(-8px);
+
+        box-shadow: 0 25px 45px rgba(79, 125, 243, 0.14);
+      }
+
+      .card-icon {
+        width: 72px;
+        height: 72px;
+
+        border-radius: 22px;
+
+        background: #eef2ff;
+
+        color: var(--primary);
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-size: 30px;
+
+        margin-bottom: 20px;
+      }
+
+      .card h3 {
+        font-size: 22px;
+
+        margin-bottom: 10px;
+      }
+
+      .card p {
+        color: var(--sub);
+
+        line-height: 1.7;
+      }
+
+      /* APPOINTMENTS */
+
+      .appointment-card {
+        background: white;
+
+        border-radius: 30px;
+
+        padding: 30px;
+
+        border: 1px solid var(--border);
+
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+      }
+
+      .appointment-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        padding: 20px 0;
+
+        border-bottom: 1px solid var(--border);
+      }
+
+      .appointment-item:last-child {
+        border-bottom: none;
+      }
+
+      .doctor-info {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+
+      .doctor-avatar {
+        width: 58px;
+        height: 58px;
+
+        border-radius: 18px;
+
+        background: #eef2ff;
+
+        color: var(--primary);
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-size: 24px;
+      }
+
+      .status {
+        padding: 10px 16px;
+
+        border-radius: 999px;
+
+        font-size: 13px;
+        font-weight: 700;
+      }
+
+      .pending {
+        background: #fef3c7;
+        color: #d97706;
+      }
+
+      .approved {
+        background: #dcfce7;
+        color: #16a34a;
+      }
+
+      /* LOGOUT */
+
+      .logout-btn {
+        width: 100%;
+
+        height: 56px;
+
+        border: none;
+
+        border-radius: 18px;
+
+        background: #ef4444;
+
+        color: white;
+
+        font-size: 16px;
+        font-weight: 700;
+
+        cursor: pointer;
+
+        margin-top: 28px;
+
+        transition: 0.3s;
+      }
+
+      .logout-btn:hover {
+        transform: translateY(-4px);
+
+        background: #dc2626;
+      }
+
+      /* RESPONSIVE */
+
+      @media (max-width: 992px) {
+        .sidebar {
+          display: none;
+        }
+
+        .main {
+          margin-left: 0;
+        }
+
+        .banner {
+          flex-direction: column;
+          text-align: center;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .main {
+          padding: 22px;
+        }
+
+        .banner h2 {
+          font-size: 32px;
+        }
+
+        .topbar {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 20px;
+        }
+
+        .appointment-item {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 16px;
+        }
+      }
+    </style>
   </head>
 
-  <body class="bg-light">
-    <div class="container mt-5">
-      <div class="card shadow p-5">
-        <h1 class="text-primary">
-          Welcome,
-          <span th:text="${patientName}"></span>
-        </h1>
+  <body>
+    <div class="dashboard">
+      <!-- SIDEBAR -->
 
-        <h4 class="mt-3">
-          City:
-          <span th:text="${patientCity}"></span>
-        </h4>
+      <div class="sidebar">
+        <div class="logo">
+          <div class="logo-icon">
+            <i class="fa-solid fa-heart-pulse"></i>
+          </div>
 
-        <hr />
+          <h2>HealthConnect</h2>
+        </div>
 
-        <a href="/search-doctors" class="btn btn-primary mt-3">
-          Search Doctors
-        </a>
+        <div class="menu">
+          <a href="/patient-dashboard" class="active">
+            <i class="fa-solid fa-house"></i>
 
-        <a href="/search-medicines" class="btn btn-success mt-3">
-          Search Medicines
+            Dashboard
+          </a>
+
+          <a href="/search-doctors">
+            <i class="fa-solid fa-user-doctor"></i>
+
+            Search Doctors
+          </a>
+
+          <a href="/search-medicines">
+            <i class="fa-solid fa-capsules"></i>
+
+            Search Medicines
+          </a>
+
+          <a href="/my-appointments">
+            <i class="fa-solid fa-calendar-check"></i>
+
+            My Appointments
+          </a>
+
+          <a href="#">
+            <i class="fa-solid fa-file-medical"></i>
+
+            Health Records
+          </a>
+
+          <a href="/logout">
+            <i class="fa-solid fa-right-from-bracket"></i>
+
+            Logout
+          </a>
+        </div>
+      </div>
+
+      <!-- MAIN -->
+
+      <div class="main">
+        <!-- TOPBAR -->
+
+        <div class="topbar">
+          <div>
+            <h1>
+              Welcome,
+              <span th:text="${patientName}"></span>
+            </h1>
+
+            <p>
+              Managing healthcare from
+              <span th:text="${patientCity}"></span>
+            </p>
+          </div>
+
+          <div class="profile">
+            <span th:text="${#strings.substring(patientName,0,1)}"></span>
+          </div>
+        </div>
+
+        <!-- BANNER -->
+
+        <div class="banner">
+          <div>
+            <h2>Your Health, Connected Digitally</h2>
+
+            <p>
+              Book appointments, consult doctors, search medicines and manage
+              your healthcare records through one modern healthcare platform.
+            </p>
+          </div>
+
+          <div class="banner-icon">
+            <i class="fa-solid fa-heart-pulse"></i>
+          </div>
+        </div>
+
+        <!-- QUICK ACTIONS -->
+
+        <h2 class="section-title">Quick Actions</h2>
+
+        <div class="grid">
+          <a href="/search-doctors" class="card">
+            <div class="card-icon">
+              <i class="fa-solid fa-user-doctor"></i>
+            </div>
+
+            <h3>Search Doctors</h3>
+
+            <p>Find experienced doctors near your location.</p>
+          </a>
+
+          <a href="/search-medicines" class="card">
+            <div class="card-icon">
+              <i class="fa-solid fa-capsules"></i>
+            </div>
+
+            <h3>Search Medicines</h3>
+
+            <p>Locate pharmacies and medicine availability instantly.</p>
+          </a>
+
+          <a href="/my-appointments" class="card">
+            <div class="card-icon">
+              <i class="fa-solid fa-calendar-check"></i>
+            </div>
+
+            <h3>Appointments</h3>
+
+            <p>Track all booked consultations and doctor approvals.</p>
+          </a>
+
+          <a href="#" class="card">
+            <div class="card-icon">
+              <i class="fa-solid fa-file-medical"></i>
+            </div>
+
+            <h3>Health Records</h3>
+
+            <p>Access healthcare history, prescriptions and reports.</p>
+          </a>
+        </div>
+
+        <!-- APPOINTMENTS -->
+
+        <h2 class="section-title">Recent Activity</h2>
+
+        <div class="appointment-card">
+          <div class="appointment-item">
+            <div class="doctor-info">
+              <div class="doctor-avatar">
+                <i class="fa-solid fa-user-doctor"></i>
+              </div>
+
+              <div>
+                <h3>Dr. Rajesh Sharma</h3>
+
+                <p>Cardiologist • Mumbai</p>
+              </div>
+            </div>
+
+            <div class="status approved">Approved</div>
+          </div>
+
+          <div class="appointment-item">
+            <div class="doctor-info">
+              <div class="doctor-avatar">
+                <i class="fa-solid fa-user-doctor"></i>
+              </div>
+
+              <div>
+                <h3>Dr. Priya Nair</h3>
+
+                <p>Dermatologist • Pune</p>
+              </div>
+            </div>
+
+            <div class="status pending">Pending</div>
+          </div>
+        </div>
+
+        <!-- LOGOUT -->
+
+        <a href="/logout">
+          <button class="logout-btn">Logout Securely</button>
         </a>
       </div>
     </div>
-    <br /><br />
-
-    <a href="/my-appointments">
-      <button
-        style="
-          width: 100%;
-          padding: 14px;
-          background: #2563eb;
-          color: white;
-          border: none;
-          border-radius: 8px;
-          font-size: 18px;
-          cursor: pointer;
-        "
-      >
-        My Appointments
-      </button>
-    </a>
-    <a href="/logout">
-      <button>Logout</button>
-    </a>
   </body>
 </html>
